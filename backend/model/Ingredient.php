@@ -14,7 +14,6 @@ class Ingredient {
         $this->avaible = $avaible;
     }
 
-    // Getters
     public function getName() {
         return $this->name;
     }
@@ -31,7 +30,6 @@ class Ingredient {
         return $this->avaible;
     }
 
-    // Setters
     public function setName($name) {
         $this->name = $name;
     }

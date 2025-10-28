@@ -24,7 +24,6 @@ class Recipe {
         $this->ingredients = $ingredients;
     }
 
-    // Getters
     public function getIdRecipe() {
         return $this->idRecipe;
     }
@@ -61,7 +60,6 @@ class Recipe {
         return $this->ingredients;
     }
 
-    // Setters
     public function setIdRecipe($idRecipe) {
         $this->idRecipe = $idRecipe;
     }

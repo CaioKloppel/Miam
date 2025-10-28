@@ -10,7 +10,6 @@ class Step {
         $this->description = $description;
     }
 
-    // Getters
     public function getNumStep() {
         return $this->numStep;
     }
@@ -19,7 +18,6 @@ class Step {
         return $this->description;
     }
 
-    // Setters
     public function setNumStep($numStep) {
         $this->numStep = $numStep;
     }
