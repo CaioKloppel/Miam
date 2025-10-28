@@ -2,47 +2,47 @@
 
 class Ingredient {
 
-    private $name;
-    private $quantity;
-    private $typeQuantity;
-    private $avaible;
+    private string $name;
+    private int $quantity;
+    private float $typeQuantity;
+    private bool $avaible;
 
-    public function __construct($name, $quantity, $typeQuantity, $avaible) {
+    public function __construct(string $name, int $quantity, float $typeQuantity, bool $avaible) {
         $this->name = $name;
         $this->quantity = $quantity;
         $this->typeQuantity = $typeQuantity;
         $this->avaible = $avaible;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getQuantity() {
+    public function getQuantity(): int {
         return $this->quantity;
     }
 
-    public function getTypeQuantity() {
+    public function getTypeQuantity(): float {
         return $this->typeQuantity;
     }
 
-    public function getAvaible() {
+    public function getAvaible(): bool {
         return $this->avaible;
     }
 
-    public function setName($name) {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    public function setQuantity($quantity) {
+    public function setQuantity(int $quantity): void {
         $this->quantity = $quantity;
     }
 
-    public function setTypeQuantity($typeQuantity) {
+    public function setTypeQuantity(float $typeQuantity): void {
         $this->typeQuantity = $typeQuantity;
     }
 
-    public function setAvaible($avaible) {
+    public function setAvaible(bool $avaible): void {
         $this->avaible = $avaible;
     }
 }

@@ -2,15 +2,15 @@
 
 class User{
 
-    private $idUser;
-    private $name;
-    private $nickname;
-    private $email;
-    private $birthDate;
-    private $password;
-    private $recipes;
+    private int $idUser;
+    private string $name;
+    private string $nickname;
+    private string $email;
+    private DateTime $birthDate;
+    private string $password;
+    private array $recipes;
 
-    public function __construct($idUser, $name, $nickname, $email, $birthDate, $password, $recipes)
+    public function __construct(int $idUser, string $name, string $nickname, string $email, DateTime $birthDate, string $password, array $recipes)
     {
         $this->idUser = $idUser;
         $this->name = $name;
@@ -21,59 +21,59 @@ class User{
         $this->recipes = $recipes;
     }
 
-    public function getIdUser() {
+    public function getIdUser(): int {
         return $this->idUser;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getNickname() {
+    public function getNickname(): string {
         return $this->nickname;
     }
 
-    public function getEmail() {
+    public function getEmail(): string {
         return $this->email;
     }
 
-    public function getBirthDate() {
+    public function getBirthDate(): DateTime {
         return $this->birthDate;
     }
 
-    public function getPassword() {
+    public function getPassword(): string {
         return $this->password;
     }
 
-    public function getRecipes() {
+    public function getRecipes(): array {
         return $this->recipes;
     }
 
-    public function setIdUser($idUser) {
+    public function setIdUser(int $idUser): void {
         $this->idUser = $idUser;
     }
 
-    public function setName($name) {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    public function setNickname($nickname) {
+    public function setNickname(string $nickname): void {
         $this->nickname = $nickname;
     }
 
-    public function setEmail($email) {
+    public function setEmail(string $email): void {
         $this->email = $email;
     }
 
-    public function setBirthDate($birthDate) {
+    public function setBirthDate(DateTime $birthDate): void {
         $this->birthDate = $birthDate;
     }
 
-    public function setPassword($password) {
+    public function setPassword(string $password): void {
         $this->password = $password;
     }
 
-    public function setRecipes($recipes) {
+    public function setRecipes(array $recipes): void {
         $this->recipes = $recipes;
     }
 

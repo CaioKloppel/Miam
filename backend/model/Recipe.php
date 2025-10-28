@@ -2,17 +2,17 @@
 
 class Recipe {
 
-    private $idRecipe;
-    private $name;
-    private $category;
-    private $portions;
-    private $rating;
-    private $favorite;
-    private $image;
-    private $steps;
-    private $ingredients;
+    private int $idRecipe;
+    private string $name;
+    private int $category;
+    private int $portions;
+    private float $rating;
+    private bool $favorite;
+    private ?string $image;
+    private array $steps;
+    private array $ingredients;
 
-    public function __construct($idRecipe, $name, $category, $portions, $rating, $favorite, $image, $steps, $ingredients) {
+    public function __construct(int $idRecipe, string $name, int $category, int $portions, float $rating, bool $favorite, ?string $image, array $steps, array $ingredients) {
         $this->idRecipe = $idRecipe;
         $this->name = $name;
         $this->category = $category;
@@ -24,75 +24,75 @@ class Recipe {
         $this->ingredients = $ingredients;
     }
 
-    public function getIdRecipe() {
+    public function getIdRecipe(): int {
         return $this->idRecipe;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getCategory() {
+    public function getCategory(): int {
         return $this->category;
     }
 
-    public function getPortions() {
+    public function getPortions(): int {
         return $this->portions;
     }
 
-    public function getRating() {
+    public function getRating(): float {
         return $this->rating;
     }
 
-    public function getFavorite() {
+    public function getFavorite(): bool {
         return $this->favorite;
     }
 
-    public function getImage() {
+    public function getImage(): ?string {
         return $this->image;
     }
 
-    public function getSteps() {
+    public function getSteps(): array {
         return $this->steps;
     }
 
-    public function getIngredients() {
+    public function getIngredients(): array {
         return $this->ingredients;
     }
 
-    public function setIdRecipe($idRecipe) {
+    public function setIdRecipe(int $idRecipe): void {
         $this->idRecipe = $idRecipe;
     }
 
-    public function setName($name) {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    public function setCategory($category) {
+    public function setCategory(int $category): void {
         $this->category = $category;
     }
 
-    public function setPortions($portions) {
+    public function setPortions(int $portions): void {
         $this->portions = $portions;
     }
 
-    public function setRating($rating) {
+    public function setRating(float $rating): void {
         $this->rating = $rating;
     }
 
-    public function setFavorite($favorite) {
+    public function setFavorite(bool $favorite): void {
         $this->favorite = $favorite;
     }
 
-    public function setImage($image) {
+    public function setImage(?string $image): void {
         $this->image = $image;
     }
 
-    public function setSteps($steps) {
+    public function setSteps(array $steps): void {
         $this->steps = $steps;
     }
 
-    public function setIngredients($ingredients) {
+    public function setIngredients(array $ingredients): void {
         $this->ingredients = $ingredients;
     }
 }
