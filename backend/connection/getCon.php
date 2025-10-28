@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
@@ -7,7 +7,7 @@ $dotenv->load();
 function getCon() {
     $host = $_ENV['DB_HOST'] ?? 'localhost';
     $port = $_ENV['DB_PORT'] ?? '3306';
-    $dbname = $_ENV['DB_NAME'] ?? '';
+    $dbname = $_ENV['DB_SCHEMA'] ?? '';
     $user = $_ENV['DB_USER'] ?? '';
     $password = $_ENV['DB_PASSWORD'] ?? '';
     
