@@ -1,15 +1,43 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../encryption/encryption.php';
 
-    function login(string $data){
-        //TODO 
-    }
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+$dotenv->load();
 
-    function register(string $data){
-        //TODO 
-    }
+function login(string $data){
+    $infoUserLogin = json_decode(decryptData($data, $_ENV['SECRET_KEY_ENCRYPTION_DATA']), true);
+    /** @var User $user */
+    $user = findUserByEmailOrNick($infoUserLogin['email/nick']);
 
-    function returnUser(string $data){
-        //TODO 
-    }
+    if (isset($user)){
+        if (isPasswordCorrect($user->getPassword(), $infoUserLogin['password'])) return json_encode(['success' => true, 'message' => 'valid login']);
+        else return json_encode(['success' => false, 'message' => 'incorret password']);
+    } else return json_encode(['success' => false, 'message' => 'user not found']);
+}
+
+function register(string $data){
+    $infoUserRegister = json_decode(decryptData($data, $_ENV['SECRET_KEY_ENCRYPTION_DATA']), true);
+    
+    $user = new User(
+        0,
+        $infoUserRegister['name'],
+        $infoUserRegister['nickname'],
+        $infoUserRegister['email'],
+        new DateTime($infoUserRegister['birth_date']),
+        $infoUserRegister['password'],
+        [],
+        true
+    );
+
+    if(setNewUser($user)){
+        return json_encode(['success' => true, 'message' => 'user successfully registered']);
+    } else json_encode(['success' => false, 'message' => 'failed to register user']);
+     
+}
+
+function returnUser(string $data){
+    //TODO 
+}
 
 ?>

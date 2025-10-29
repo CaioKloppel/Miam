@@ -17,6 +17,10 @@ $router->post('/login', function() {
     userLogin();
 });
 
+$router->post('/register', function() {
+    userRegister();
+});
+
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 

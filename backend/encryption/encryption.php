@@ -54,4 +54,12 @@ function encryptData($data, $SECRET_KEY) {
     return base64_encode($result);
 }
 
+function isPasswordCorrect(string $hashedPassword, string $plainPassword): bool {
+    return password_verify($plainPassword, $hashedPassword);
+}
+
+function hashPassword(string $password): string {
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+
 ?>
