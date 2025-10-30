@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/controller/Router.php';
+require_once __DIR__ . '/controller/userController.php';
 
 header('Content-Type: application/json');
 

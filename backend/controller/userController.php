@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/Router.php';
 require_once __DIR__ . '/../service/userService.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 require_once __DIR__ . '/../vendor/autoload.php';

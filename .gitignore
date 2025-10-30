@@ -3,6 +3,7 @@
 
 # Ambiente (senhas, chaves)
 .env
+config.js
 
 # Arquivos do sistema
 .DS_Store

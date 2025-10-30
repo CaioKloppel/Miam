@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../model/User.php';
+require_once __DIR__ . '/../repository/userRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
@@ -24,7 +26,7 @@ function register(string $data){
         $infoUserRegister['name'],
         $infoUserRegister['nickname'],
         $infoUserRegister['email'],
-        new DateTime($infoUserRegister['birth_date']),
+        new DateTime($infoUserRegister['birthDate']),
         $infoUserRegister['password'],
         [],
         true
