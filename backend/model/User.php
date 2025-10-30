@@ -10,14 +10,14 @@ class User{
     private string $password;
     private array $recipes;
 
-    public function __construct(int $idUser, string $name, string $nickname, string $email, DateTime $birthDate, string $password, array $recipes, bool $newUser)
+    public function __construct(int $idUser, string $name, string $nickname, string $email, DateTime $birthDate, string $password, array $recipes)
     {
         $this->idUser = $idUser;
         $this->name = $name;
         $this->nickname = $nickname;
         $this->email = $email;
         $this->birthDate = $birthDate;
-        if($newUser) $this->setPassword($password); else $this->password = $password;
+        $this->password = $password;
         $this->recipes = $recipes;
     }
 
@@ -70,7 +70,7 @@ class User{
     }
 
     public function setPassword(string $password): void {
-        $this->password = hashPassword($password);
+        $this->password = $password;
     }
 
     public function setRecipes(Recipe $recipe): void {

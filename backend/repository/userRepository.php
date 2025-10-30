@@ -32,9 +32,32 @@ function findUserByEmailOrNick(string $userInfo) : ?User {
         $row['email'],
         new DateTime($row['birth_date']),
         $row['password'],
-        [],
-        false
+        []
     );
+}
+
+function checkUser(string $userEmailOrNick, string $password) : bool{
+    $con = getCon();
+    $stmt = mysqli_stmt_init($con);
+
+    $query = 'select * from users where (email = ? or nickname = ?) and password = ?';
+
+    mysqli_stmt_prepare($stmt, $query);
+    mysqli_stmt_bind_param($stmt, 'sss', $userEmailOrNick, $userEmailOrNick, $password);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $row = mysqli_fetch_assoc($result);
+
+    mysqli_free_result($result);
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($con);
+
+    if (!$row) {
+        return false;
+    } else return true;
 }
 
 function setNewUser(User $user) : bool {

@@ -1,29 +1,30 @@
-import SECRET_KEY from "../../../config.js";
+import SECRET from "../../../config.js";
+import { User } from "../models/User.js";
 
 async function testRegister() {
-  console.log("=== TESTE DE REGISTRO DE USUÁRIO ===\n");
+  const user = new User(
+    null,
+    "caio",
+    "caiok9",
+    "caio@gmail.com",
+    "2007-04-12",
+    CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex),
+    []
+  );
 
-  // Dados do novo usuário
-  const userData = {
-    name: "João Silva",
-    nickname: "joaosilva123",
-    email: "joao.silva@email.com",
-    birthDate: "1995-05-15",
-    password: "senha123",
-  };
+  console.log("Dados do usuário:", user);
 
-  console.log("Dados do usuário:", userData);
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(SECRET.SECRET_KEY);
 
-  const encrypted = CryptoJS.AES.encrypt(
-    JSON.stringify(userData),
-    SECRET_KEY
-  ).toString();
+  const encrypted = crypto.encrypt(JSON.stringify(user));
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/register",
     {
       method: "POST",
       headers: {
+        "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ info: encrypted }),
@@ -32,58 +33,40 @@ async function testRegister() {
 
   const result = await response.json();
   console.log("Resposta do servidor:", result);
-
-  if (result.success) {
-    console.log("✅ Usuário registrado com sucesso!");
-  } else {
-    console.log("❌ Erro ao registrar:", result.message);
-  }
 }
 
 async function testLogin() {
-  var email = "joao.silva@email.com";
-  var password = "senha123";
-  console.log("=== TESTE DE LOGIN ===");
-  console.log("Email:", email);
+  var emailNick = "carol";
+  var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
+  console.log("Email/Nick:", emailNick);
   console.log("Password:", password);
 
-  try {
-    // Criptografar dados de login
-    const loginData = {
-      "email/nick": email,
-      password: password,
-    };
+  const loginData = {
+    "email/nick": emailNick,
+    password: password,
+  };
 
-    const encrypted = CryptoJS.AES.encrypt(
-      JSON.stringify(loginData),
-      SECRET_KEY
-    ).toString();
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(SECRET.SECRET_KEY);
 
-    console.log("Dados criptografados:", encrypted);
+  const encrypted = crypto.encrypt(JSON.stringify(loginData));
 
-    const response = await fetch(
-      "http://localhost/PUC/TDE/backend/index.php/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ info: encrypted }),
-      }
-    );
+  console.log("Dados criptografados:", encrypted);
 
-    const result = await response.json();
-    console.log("Resposta do servidor:", result);
-
-    if (result.success) {
-      console.log("✅ Login bem-sucedido!");
-      console.log("Mensagem:", result.message);
-    } else {
-      console.log("❌ Falha no login:", result.message);
+  const response = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/login",
+    {
+      method: "POST",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ info: encrypted }),
     }
-  } catch (error) {
-    console.error("❌ Erro na requisição de login:", error);
-  }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor:", result);
 }
 
 window.testRegister = testRegister;

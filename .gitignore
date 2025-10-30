@@ -3,6 +3,8 @@
 
 # Ambiente (senhas, chaves)
 .env
+private_key.pem
+public_key.pem
 config.js
 
 # Arquivos do sistema

@@ -24,7 +24,8 @@ $router->post('/register', function() {
 
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = $_SERVER['REQUEST_METHOD'];
+$apiKey = $_SERVER['HTTP_X_API_KEY'] ?? '';
 
-$router->dispatch($requestUri, $requestMethod);
+$router->dispatch($requestUri, $requestMethod, $apiKey);
 
 ?>
