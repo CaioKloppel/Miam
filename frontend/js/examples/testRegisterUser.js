@@ -1,4 +1,4 @@
-import SECRET from "../../../config.js";
+import SECRET from "/PUC/TDE/config.js";
 import { User } from "../models/User.js";
 
 async function testRegister() {
@@ -69,5 +69,23 @@ async function testLogin() {
   console.log("Resposta do servidor:", result);
 }
 
+async function testUser() {
+  var email = "caio@gmail.com";
+
+  const response = await fetch(
+    `http://localhost/PUC/TDE/backend/index.php/user?email=${email}`,
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor:", result);
+}
+
 window.testRegister = testRegister;
 window.testLogin = testLogin;
+window.testUser = testUser;

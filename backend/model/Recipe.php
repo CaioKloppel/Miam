@@ -1,10 +1,13 @@
 <?php
 
-class Recipe {
+require_once __DIR__ . '/Ingredient.php';
+require_once __DIR__ . '/Step.php';
+
+class Recipe implements JsonSerializable{
 
     private int $idRecipe;
     private string $name;
-    private int $category;
+    private string $category;
     private int $portions;
     private float $rating;
     private bool $favorite;
@@ -12,7 +15,7 @@ class Recipe {
     private array $steps;
     private array $ingredients;
 
-    public function __construct(int $idRecipe, string $name, int $category, int $portions, float $rating, bool $favorite, ?string $image, array $steps, array $ingredients) {
+    public function __construct(int $idRecipe, string $name, string $category, int $portions, float $rating, bool $favorite, ?string $image, array $steps, array $ingredients) {
         $this->idRecipe = $idRecipe;
         $this->name = $name;
         $this->category = $category;
@@ -24,6 +27,20 @@ class Recipe {
         $this->ingredients = $ingredients;
     }
 
+    public function jsonSerialize(): mixed {
+        return [
+            'idRecipe' => $this->idRecipe,
+            'name' => $this->name,
+            'category' => $this->category,
+            'portions' => $this->portions,
+            'rating' => $this->rating,
+            'favorite' => $this->favorite,
+            'image' => $this->image,
+            'steps' => $this->steps,
+            'ingredients' => $this->ingredients
+        ];
+    }
+
     public function getIdRecipe(): int {
         return $this->idRecipe;
     }
@@ -32,7 +49,7 @@ class Recipe {
         return $this->name;
     }
 
-    public function getCategory(): int {
+    public function getCategory(): string {
         return $this->category;
     }
 
@@ -68,7 +85,7 @@ class Recipe {
         $this->name = $name;
     }
 
-    public function setCategory(int $category): void {
+    public function setCategory(string $category): void {
         $this->category = $category;
     }
 
@@ -88,12 +105,12 @@ class Recipe {
         $this->image = $image;
     }
 
-    public function setSteps(array $steps): void {
-        $this->steps = $steps;
+    public function setSteps(Step $steps): void {
+        $this->steps[] = $steps;
     }
 
-    public function setIngredients(array $ingredients): void {
-        $this->ingredients = $ingredients;
+    public function setIngredients(Ingredient $ingredients): void {
+        $this->ingredients[] = $ingredients;
     }
 }
 

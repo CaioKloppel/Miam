@@ -14,6 +14,10 @@ $router->get('/teste2', function() {
     echo 'teste2';
 });
 
+$router->get('/user', function(){
+    getUser();
+});
+
 $router->post('/login', function() {
     userLogin();
 });

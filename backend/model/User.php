@@ -1,6 +1,6 @@
 <?php
 
-class User{
+class User implements JsonSerializable{
 
     private int $idUser;
     private string $name;
@@ -19,6 +19,17 @@ class User{
         $this->birthDate = $birthDate;
         $this->password = $password;
         $this->recipes = $recipes;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'idUser' => $this->idUser,
+            'name' => $this->name,
+            'nickname' => $this->nickname,
+            'email' => $this->email,
+            'birthDate' => $this->birthDate->format('Y-m-d'),
+            'recipes' => $this->recipes
+        ];
     }
 
     public function getIdUser(): int {
@@ -75,6 +86,10 @@ class User{
 
     public function setRecipes(Recipe $recipe): void {
         $this->recipes[] = $recipe;
+    }
+
+    public function setAllRecipes(array $recipes){
+        $this->recipes = $recipes;
     }
 
 }

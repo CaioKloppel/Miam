@@ -3,12 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" defer src="js/examples/testRegisterUser.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <script type="module" src="js/examples/testRegisterUser.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <button type="button" onclick="testLogin()"></button>
+    <button type="button" id="btnGetUser" onclick="testUser()">
+      Buscar Usuário
+    </button>
+    <button type="button" id="btnRegister" onclick="testRegister()">
+      Registrar
+    </button>
+    <button type="button" id="btnLogin" onclick="testLogin()">Login</button>
   </body>
 </html>

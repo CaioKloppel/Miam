@@ -1,28 +1,37 @@
 <?php
 
-class Ingredient {
+class Ingredient implements JsonSerializable{
 
     private string $name;
-    private int $quantity;
-    private float $typeQuantity;
+    private float $quantity;
+    private string $typeQuantity;
     private bool $avaible;
 
-    public function __construct(string $name, int $quantity, float $typeQuantity, bool $avaible) {
+    public function __construct(string $name, float $quantity, string $typeQuantity, bool $avaible) {
         $this->name = $name;
         $this->quantity = $quantity;
         $this->typeQuantity = $typeQuantity;
         $this->avaible = $avaible;
     }
 
+    public function jsonSerialize(): mixed {
+        return [
+            'name' => $this->name,
+            'quantity' => $this->quantity,
+            'typeQuantity' => $this->typeQuantity,
+            'available' => $this->avaible
+        ];
+    }
+
     public function getName(): string {
         return $this->name;
     }
 
-    public function getQuantity(): int {
+    public function getQuantity(): float {
         return $this->quantity;
     }
 
-    public function getTypeQuantity(): float {
+    public function getTypeQuantity(): string {
         return $this->typeQuantity;
     }
 
@@ -34,11 +43,11 @@ class Ingredient {
         $this->name = $name;
     }
 
-    public function setQuantity(int $quantity): void {
+    public function setQuantity(float $quantity): void {
         $this->quantity = $quantity;
     }
 
-    public function setTypeQuantity(float $typeQuantity): void {
+    public function setTypeQuantity(string $typeQuantity): void {
         $this->typeQuantity = $typeQuantity;
     }
 

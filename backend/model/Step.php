@@ -1,6 +1,6 @@
 <?php
 
-class Step {
+class Step implements JsonSerializable{
 
     private int $numStep;
     private string $description;
@@ -8,6 +8,13 @@ class Step {
     public function __construct(int $numStep, string $description) {
         $this->numStep = $numStep;
         $this->description = $description;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'numStep' => $this->numStep,
+            'description' => $this->description
+        ];
     }
 
     public function getNumStep(): int {

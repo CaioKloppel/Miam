@@ -3,19 +3,7 @@
 require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../repository/userRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
-
-/** 
-function login(string $data){
-    $infoUserLogin = json_decode(decryptData($data, $_ENV['SECRET_KEY_ENCRYPTION_DATA']), true);
-    
-    $user = findUserByEmailOrNick($infoUserLogin['email/nick']);
-
-    if (isset($user)){
-        if (isPasswordCorrect($user->getPassword(), $infoUserLogin['password'])) return json_encode(['success' => true, 'message' => 'valid login']);
-        else return json_encode(['success' => false, 'message' => 'incorret password']);
-    } else return json_encode(['success' => false, 'message' => 'user not found']);
-}
-*/
+require_once __DIR__ . '/../repository/recipesRepository.php';
 
 function login(string $data){
     $infoUserLogin = json_decode(decryptData($data), true);
@@ -44,8 +32,16 @@ function register(string $data){
      
 }
 
-function returnUser(string $data){
-    //TODO 
+function returnUser(string $email){ 
+    $user = findUserByEmailOrNick($email);
+
+    if($user){
+        $recipes = findRecipesByUserId($user->getIdUser());
+        $user->setAllRecipes($recipes);
+        return json_encode(['sucess' => true, 'user' => $user]);
+    } else return json_encode(['success' => false, 'message' => 'failed to get user']);
+    
 }
+
 
 ?>
