@@ -101,4 +101,74 @@ function findRecipesByUserId(int $userId) : ?array{
     }
 }
 
+function setNewRecipe(int $userId, Recipe $recipe) : bool{
+    try{
+        $con = getCon();
+        $stmt = mysqli_stmt_init($con);
+
+        $query = 'INSERT INTO food_recipes(ID_user, Recipe_name, Category, Portions, Rating, Favourite, Food_Image) VALUES(?,?,?,?,?,?,?)';
+
+        $ID_user = $userId;
+        $Recipe_name = $recipe->getName();
+        $Category = $recipe->getCategory();
+        $Portions = $recipe->getPortions();
+        $Rating = $recipe->getRating();
+        $Favourite = $recipe->getFavorite() ? 1 : 0;
+        $Food_Image = $recipe->getImage();
+
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, 'issidib', $ID_user, $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image);
+        if ($Food_Image !== null) {
+            mysqli_stmt_send_long_data($stmt, 6, $Food_Image);
+        }
+        mysqli_stmt_execute($stmt);
+
+        $recipeId = mysqli_insert_id($con);
+
+        mysqli_stmt_close($stmt);
+
+        $stmt2 = mysqli_stmt_init($con);
+        $query2 = 'INSERT INTO ingredients(ID_Food_recipe, Ingredient_name, Quantity, Type_quantity, Avaible) VALUES(?, ?, ?, ?, ?)';
+
+        mysqli_stmt_prepare($stmt2, $query2);
+
+        foreach($recipe->getIngredients() as $ingredient){
+            $ingredientName = $ingredient->getName();
+            $quantity = $ingredient->getQuantity();
+            $typeQuantity = $ingredient->getType();
+            $available = $ingredient->getAvailable() ? 1 : 0;
+
+            mysqli_stmt_bind_param($stmt2, 'isdsi', $recipeId, $ingredientName, $quantity, $typeQuantity, $available);
+            mysqli_stmt_execute($stmt2);
+        } mysqli_stmt_close($stmt2);
+
+        $stmt3 = mysqli_stmt_init($con);
+        $query3 = 'INSERT INTO steps(ID_Food_recipe, Num_step, Description) VALUES(?,?,?)';
+
+        mysqli_stmt_prepare($stmt3, $query3);
+
+        foreach ($recipe->getSteps() as $step) {
+            $numStep = $step->getNumStep();
+            $description = $step->getDescription();
+
+            mysqli_stmt_bind_param($stmt3, 'iis', $recipeId, $numStep, $description);
+            mysqli_stmt_execute($stmt3);
+        } mysqli_stmt_close($stmt3);
+
+        mysqli_close($con);
+
+        return true;
+    } catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        if (isset($con)) {
+            mysqli_close($con);
+        }
+        
+        error_log("Erro em setNewUser: " . $e->getMessage());
+        return false;
+    }
+}
+
 ?>
