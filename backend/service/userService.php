@@ -37,7 +37,7 @@ function returnUser(string $email, string $password){
 
     if($user){
         $recipes = findRecipesByUserId($user->getIdUser());
-        $user->setAllRecipes($recipes);
+        $user->setAllRecipes($recipes ?? []);
         return json_encode(['sucess' => true, 'user' => $user]);
     } else return json_encode(['success' => false, 'message' => 'failed to get user']);
     

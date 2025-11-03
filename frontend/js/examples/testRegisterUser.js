@@ -71,9 +71,10 @@ async function testLogin() {
 
 async function testUser() {
   var email = "caio@gmail.com";
+  var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
 
   const response = await fetch(
-    `http://localhost/PUC/TDE/backend/index.php/user?email=${email}`,
+    `http://localhost/PUC/TDE/backend/index.php/user?email=${email}&password=${password}`,
     {
       method: "GET",
       headers: {
