@@ -22,10 +22,11 @@ function userRegister(){
 }
 
 function getUser(){
-    $input = $_GET['email'] ?? null;
-    if($input){
-        echo returnUser($input);
-    } else echo json_encode(['success' => false, 'message' => 'user email not provided']);
+    $email = $_GET['email'] ?? null;
+    $password = $_GET['password'] ?? null;
+    if($email and $password){
+        echo returnUser($email, $password);
+    } else echo json_encode(['success' => false, 'message' => 'information to return user not provided']);
 }
 
 ?>

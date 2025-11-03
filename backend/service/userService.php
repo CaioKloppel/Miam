@@ -32,8 +32,8 @@ function register(string $data){
      
 }
 
-function returnUser(string $email){ 
-    $user = findUserByEmailOrNick($email);
+function returnUser(string $email, string $password){ 
+    $user = findUserByEmailOrNickAndPassword($email, $password);
 
     if($user){
         $recipes = findRecipesByUserId($user->getIdUser());

@@ -2,14 +2,14 @@
 require_once __DIR__ . '/../connection/getCon.php';
 require_once __DIR__ . '/../model/User.php';
 
-function findUserByEmailOrNick(string $userInfo) : ?User {
+function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password) : ?User {
     $con = getCon();
     $stmt = mysqli_stmt_init($con);
 
-    $query = 'select * from users where email = ? or nickname = ?';
+    $query = 'SELECT * FROM users WHERE (email = ? or nickname = ?) and password = ?';
 
     mysqli_stmt_prepare($stmt, $query);
-    mysqli_stmt_bind_param($stmt, 'ss', $userInfo, $userInfo);
+    mysqli_stmt_bind_param($stmt, 'ss', $emailOrNick, $emailOrNick, $password);
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
