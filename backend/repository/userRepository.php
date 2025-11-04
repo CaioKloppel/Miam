@@ -4,7 +4,7 @@ require_once __DIR__ . '/../model/User.php';
 
 function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password) : ?User {
     try{
-        $con = getCon();
+        $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
     
         $query = 'SELECT * FROM users WHERE (email = ? or nickname = ?) and password = ?';
@@ -20,7 +20,6 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
         mysqli_free_result($result);
     
         mysqli_stmt_close($stmt);
-        mysqli_close($con);
     
         if (!$row) {
             return null;
@@ -39,9 +38,6 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
-        if (isset($con)) {
-            mysqli_close($con);
-        }
         
         error_log("Erro em setNewUser: " . $e->getMessage());
         return null;
@@ -50,7 +46,7 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
 
 function checkUser(string $userEmailOrNick, string $password) : bool{
     try{
-        $con = getCon();
+        $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
     
         $query = 'SELECT * FROM users WHERE (email = ? or nickname = ?) and password = ?';
@@ -66,7 +62,6 @@ function checkUser(string $userEmailOrNick, string $password) : bool{
         mysqli_free_result($result);
     
         mysqli_stmt_close($stmt);
-        mysqli_close($con);
     
         if (!$row) {
             return false;
@@ -76,9 +71,6 @@ function checkUser(string $userEmailOrNick, string $password) : bool{
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
-        if (isset($con)) {
-            mysqli_close($con);
-        }
         
         error_log("Erro em checkUser: " . $e->getMessage());
         return false;
@@ -87,7 +79,7 @@ function checkUser(string $userEmailOrNick, string $password) : bool{
 
 function setNewUser(User $user) : bool {
     try {
-        $con = getCon();
+        $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
 
         $query = 'INSERT INTO users(name, nickname, email, birth_date, password) values(?,?,?,?,?)';
@@ -105,16 +97,12 @@ function setNewUser(User $user) : bool {
         mysqli_stmt_execute($stmt);
         
         mysqli_stmt_close($stmt);
-        mysqli_close($con);
 
         return true;
 
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
-        }
-        if (isset($con)) {
-            mysqli_close($con);
         }
         
         error_log("Erro em setNewUser: " . $e->getMessage());

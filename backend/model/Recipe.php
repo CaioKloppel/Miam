@@ -27,6 +27,42 @@ class Recipe implements JsonSerializable{
         $this->ingredients = $ingredients;
     }
 
+    public static function constructFromArray(array $recipeInfo) : Recipe {
+        $recipe = new Recipe(
+            0,
+            $recipeInfo['name'],
+            $recipeInfo['categoy'],
+            (int)$recipeInfo['portions'],
+            (float)$recipeInfo['rating'],
+            (bool)$recipeInfo['rating'],
+            $recipeInfo['image'],
+            [],
+            []
+        );
+
+        foreach($recipeInfo['ingredients'] as $ingredient){
+            $recipe->setIngredients(
+                new Ingredient(
+                    $ingredient['name'],
+                    (float)$ingredient['quantity'],
+                    $ingredient['typeQuantity'],
+                    (bool)$ingredient['avaible']
+                )
+            );
+        }
+
+        foreach($recipeInfo['steps'] as $step){
+            $recipe->setSteps(
+                new Step(
+                    (int)$step['numStep'],
+                    $step['description']
+                )
+            );
+        }
+
+        return $recipe;
+    }
+
     public function jsonSerialize(): mixed {
         return [
             'idRecipe' => $this->idRecipe,

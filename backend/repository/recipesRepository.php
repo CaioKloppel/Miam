@@ -5,7 +5,7 @@ require_once __DIR__ . '/../model/Recipe.php';
 function findRecipesByUserId(int $userId) : ?array{
     try{
         
-        $con = getCon();
+        $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
     
         $query = 'SELECT  r.ID_Food_recipe, 
@@ -85,15 +85,11 @@ function findRecipesByUserId(int $userId) : ?array{
     
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
-        mysqli_close($con);
         
         return array_values($recipesData);
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
-        }
-        if (isset($con)) {
-            mysqli_close($con);
         }
         
         error_log("Erro em setNewUser: " . $e->getMessage());
@@ -103,7 +99,7 @@ function findRecipesByUserId(int $userId) : ?array{
 
 function setNewRecipe(int $userId, Recipe $recipe) : bool{
     try{
-        $con = getCon();
+        $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
 
         $query = 'INSERT INTO food_recipes(ID_user, Recipe_name, Category, Portions, Rating, Favourite, Food_Image) VALUES(?,?,?,?,?,?,?)';
@@ -126,44 +122,77 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
         $recipeId = mysqli_insert_id($con);
 
         mysqli_stmt_close($stmt);
-
-        $stmt2 = mysqli_stmt_init($con);
-        $query2 = 'INSERT INTO ingredients(ID_Food_recipe, Ingredient_name, Quantity, Type_quantity, Avaible) VALUES(?, ?, ?, ?, ?)';
-
-        mysqli_stmt_prepare($stmt2, $query2);
+        mysqli_close($con);
 
         foreach($recipe->getIngredients() as $ingredient){
-            $ingredientName = $ingredient->getName();
-            $quantity = $ingredient->getQuantity();
-            $typeQuantity = $ingredient->getType();
-            $available = $ingredient->getAvailable() ? 1 : 0;
-
-            mysqli_stmt_bind_param($stmt2, 'isdsi', $recipeId, $ingredientName, $quantity, $typeQuantity, $available);
-            mysqli_stmt_execute($stmt2);
-        } mysqli_stmt_close($stmt2);
-
-        $stmt3 = mysqli_stmt_init($con);
-        $query3 = 'INSERT INTO steps(ID_Food_recipe, Num_step, Description) VALUES(?,?,?)';
-
-        mysqli_stmt_prepare($stmt3, $query3);
+            setNewIngredient($recipeId, $ingredient);
+        } 
 
         foreach ($recipe->getSteps() as $step) {
-            $numStep = $step->getNumStep();
-            $description = $step->getDescription();
-
-            mysqli_stmt_bind_param($stmt3, 'iis', $recipeId, $numStep, $description);
-            mysqli_stmt_execute($stmt3);
-        } mysqli_stmt_close($stmt3);
-
-        mysqli_close($con);
+            setNewStep($recipeId,$step);
+        } 
 
         return true;
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
-        if (isset($con)) {
-            mysqli_close($con);
+
+        error_log("Erro em setNewUser: " . $e->getMessage());
+        return false;
+    }
+}
+
+function updateRecipe(Recipe $recipe) : bool{
+    try{
+        $con = GetCon::getInstance()->returnCon();
+        $stmt = mysqli_stmt_init($con);
+
+        $query = 'UPDATE food_recipe
+        SET Recipe_name = ?, Category = ?, Portions ?, Rating = ?, Favorite = ?, Food_image = ?
+        WHERE ID_Food_recipe = ?';
+
+        $ID_Food_recipe = $recipe->getIdRecipe();
+        $Recipe_name = $recipe->getName();
+        $Category = $recipe->getCategory();
+        $Portions = $recipe->getPortions();
+        $Rating = $recipe->getRating();
+        $Favourite = $recipe->getFavorite() ? 1 : 0;
+        $Food_Image = $recipe->getImage();
+
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, 'ssidibi', $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image, $ID_Food_recipe);
+        if ($Food_Image !== null) {
+            mysqli_stmt_send_long_data($stmt, 5, $Food_Image);
+        }
+        mysqli_stmt_execute($stmt);
+
+        $newIngredients = [];
+        foreach($recipe->getIngredients() as $ingredient){
+            $affectedRows = updateIngredient($ingredient);
+
+            if ($affectedRows == 0) $newIngredients[] = $ingredient;
+        } 
+
+        $newSteps = [];
+        foreach($recipe->getSteps() as $step){
+            $affectedRows = updateStep($step); 
+
+            if ($affectedRows == 0) $newSteps[] = $step;
+        }
+
+        foreach($newIngredients as $ingredient){
+            setNewIngredient($ID_Food_recipe, $ingredient);
+        }
+
+        foreach($newSteps as $step){
+            setNewStep($ID_Food_recipe, $$ingredient);
+        }
+
+        return true;
+    } catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
         }
         
         error_log("Erro em setNewUser: " . $e->getMessage());

@@ -10,8 +10,7 @@ class User implements JsonSerializable{
     private string $password;
     private array $recipes;
 
-    public function __construct(int $idUser, string $name, string $nickname, string $email, DateTime $birthDate, string $password, array $recipes)
-    {
+    public function __construct(int $idUser, string $name, string $nickname, string $email, DateTime $birthDate, string $password, array $recipes) {
         $this->idUser = $idUser;
         $this->name = $name;
         $this->nickname = $nickname;
@@ -19,6 +18,20 @@ class User implements JsonSerializable{
         $this->birthDate = $birthDate;
         $this->password = $password;
         $this->recipes = $recipes;
+    }
+
+    public static function constructFromArray(array $userInfo){
+        $user = new User(
+            0,
+            $userInfo['name'],
+            $userInfo['nickname'],
+            $userInfo['email'],
+            new DateTime($userInfo['birthDate']),
+            $userInfo['password'],
+            []
+        );
+
+        return $user;
     }
 
     public function jsonSerialize(): mixed {

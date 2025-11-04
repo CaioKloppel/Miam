@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../service/userService.php';
-require_once __DIR__ . '/../encryption/encryption.php';
 
 function userLogin(){
     $input = file_get_contents('php://input');
@@ -17,7 +16,7 @@ function userRegister(){
     $data = json_decode($input, true);
 
     if(isset($data['info'])){
-        echo register($data['info']);
+        echo registerUser($data['info']);
     } else echo json_encode(['success' => false, 'message' => 'user register information not provided']);
 }
 

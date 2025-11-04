@@ -12,19 +12,10 @@ function login(string $data){
     else return json_encode(['success' => false, 'message' => 'incorret login information']);
 }
 
-function register(string $data){
+function registerUser(string $data){
     $infoUserRegister = json_decode(decryptData($data), true);
     
-    $user = new User(
-        0,
-        $infoUserRegister['name'],
-        $infoUserRegister['nickname'],
-        $infoUserRegister['email'],
-        new DateTime($infoUserRegister['birthDate']),
-        $infoUserRegister['password'],
-        [],
-        true
-    );
+    $user = User::constructFromArray($infoUserRegister);
 
     if(setNewUser($user)){
         return json_encode(['success' => true, 'message' => 'user successfully registered']);

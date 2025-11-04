@@ -1,5 +1,8 @@
 import SECRET from "/PUC/TDE/config.js";
 import { User } from "../models/User.js";
+import { Recipe } from "../models/Recipe.js";
+import { Ingredient } from "../models/Ingredient.js";
+import { Step } from "../models/Step.js";
 
 async function testRegister() {
   const user = new User(
@@ -54,7 +57,7 @@ async function testLogin() {
   console.log("Dados criptografados:", encrypted);
 
   const response = await fetch(
-    "http://localhost/PUC/TDE/backend/index.php/login",
+    "http://localhost/PUC/TDE/backend/index.php/user/login",
     {
       method: "POST",
       headers: {
@@ -74,7 +77,7 @@ async function testUser() {
   var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
 
   const response = await fetch(
-    `http://localhost/PUC/TDE/backend/index.php/user?email=${email}&password=${password}`,
+    `http://localhost/PUC/TDE/backend/index.php/user/return?email=${email}&password=${password}`,
     {
       method: "GET",
       headers: {
@@ -87,6 +90,134 @@ async function testUser() {
   console.log("Resposta do servidor:", result);
 }
 
+async function testRegisterRecipe() {
+  // Criar ingredientes de exemplo
+  const ingredients = [
+    new Ingredient("Farinha de trigo", 500, "g", true),
+    new Ingredient("Açúcar", 200, "g", true),
+    new Ingredient("Ovos", 3, "unidades", true),
+    new Ingredient("Leite", 250, "ml", true),
+    new Ingredient("Manteiga", 100, "g", true),
+  ];
+
+  // Criar passos de exemplo
+  const steps = [
+    new Step(1, "Em uma tigela, misture a farinha e o açúcar"),
+    new Step(2, "Adicione os ovos e bata bem"),
+    new Step(3, "Acrescente o leite aos poucos, mexendo sempre"),
+    new Step(4, "Por último, adicione a manteiga derretida"),
+    new Step(5, "Despeje em uma forma untada e asse por 40 minutos a 180°C"),
+  ];
+
+  // Criar receita de exemplo
+  const recipe = new Recipe(
+    null, // idRecipe (será gerado pelo backend)
+    "Bolo Simples de Farinha",
+    "Sobremesas",
+    8, // porções
+    0, // rating inicial
+    false, // não é favorito ainda
+    null, // URL da imagem
+    steps,
+    ingredients
+  );
+
+  console.log("Dados da receita:", recipe);
+
+  const registerRecipe = {
+    userId: 9,
+    recipe: recipe,
+  };
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(SECRET.SECRET_KEY);
+
+  const encrypted = crypto.encrypt(JSON.stringify(registerRecipe));
+
+  const response = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/recipe/register",
+    {
+      method: "POST",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ info: encrypted }),
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor (Register Recipe):", result);
+  return result;
+}
+
+async function testEditRecipe() {
+  // Criar ingredientes atualizados
+  const ingredients = [
+    new Ingredient("Farinha de trigo", 600, "g", true), // quantidade alterada
+    new Ingredient("Açúcar", 250, "g", true), // quantidade alterada
+    new Ingredient("Ovos", 4, "unidades", true), // quantidade alterada
+    new Ingredient("Leite", 300, "ml", true), // quantidade alterada
+    new Ingredient("Manteiga", 150, "g", true), // quantidade alterada
+    new Ingredient("Fermento em pó", 10, "g", true), // novo ingrediente
+  ];
+
+  // Criar passos atualizados
+  const steps = [
+    new Step(1, "Preaqueça o forno a 180°C"), // novo passo
+    new Step(
+      2,
+      "Em uma tigela grande, misture a farinha, o açúcar e o fermento"
+    ), // modificado
+    new Step(3, "Adicione os ovos e bata bem até obter uma mistura homogênea"),
+    new Step(4, "Acrescente o leite aos poucos, mexendo sempre"),
+    new Step(
+      5,
+      "Por último, adicione a manteiga derretida e misture delicadamente"
+    ),
+    new Step(6, "Despeje em uma forma untada e enfarinhada"),
+    new Step(7, "Asse por 45 minutos ou até dourar"), // modificado
+  ];
+
+  // Criar receita atualizada (use um ID existente)
+  const recipe = new Recipe(
+    1, // idRecipe existente (altere conforme necessário)
+    "Bolo Completo de Farinha", // nome alterado
+    "Sobremesas",
+    10, // porções alteradas
+    4.5, // rating atualizado
+    true, // agora é favorito
+    "https://example.com/bolo-completo.jpg", // imagem atualizada
+    steps,
+    ingredients
+  );
+
+  console.log("Dados da receita atualizada:", recipe);
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(SECRET.SECRET_KEY);
+
+  const encrypted = crypto.encrypt(JSON.stringify(recipe));
+
+  const response = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/recipe/edit",
+    {
+      method: "PUT",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ info: encrypted }),
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor (Edit Recipe):", result);
+  return result;
+}
+
 window.testRegister = testRegister;
 window.testLogin = testLogin;
 window.testUser = testUser;
+window.testRegisterRecipe = testRegisterRecipe;
+window.testEditRecipe = testEditRecipe;
