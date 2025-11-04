@@ -16,9 +16,9 @@ function encryptData($data, $privateKeyPath= __DIR__ . '/../../private_key.pem')
         $data = json_encode($data);
     }
     
-    $publicKey = openssl_pkey_get_public(file_get_contents($privateKeyPath));
+    $publicKey = openssl_pkey_get_private(file_get_contents($privateKeyPath));
     
-    openssl_public_encrypt($data, $encrypted, $publicKey);
+    openssl_private_encrypt($data, $encrypted, $publicKey);
     
     return base64_encode($encrypted);
 }
