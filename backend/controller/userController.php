@@ -34,9 +34,9 @@ function getUser(): void{
 }
 
 function userDelete(): void{
-    $userId = $_GET['userId'] ?? null;
+    $email = $_GET['email'] ?? null;
     $password = $_GET['password'] ?? null;
-    if($userId and $password) echo deleteUser($userId, $password);
+    if($email and $password) echo deleteUser($email, $password);
     else echo json_encode(['success' => false, 'message' => 'information to delete user not provided']);
 }
 

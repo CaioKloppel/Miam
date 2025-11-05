@@ -77,7 +77,9 @@ async function testUser() {
   var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
 
   const response = await fetch(
-    `http://localhost/PUC/TDE/backend/index.php/user/return?email=${email}&password=${password}`,
+    `http://localhost/PUC/TDE/backend/index.php/user/return?email=${encodeURIComponent(
+      email
+    )}&password=${encodeURIComponent(password)}`,
     {
       method: "GET",
       headers: {
@@ -125,7 +127,7 @@ async function testRegisterRecipe() {
   console.log("Dados da receita:", recipe);
 
   const registerRecipe = {
-    userId: 1,
+    userId: 4,
     recipe: recipe,
   };
 
@@ -156,7 +158,7 @@ async function testEditRecipe() {
   const ingredients = [
     new Ingredient("Farinha de trigo", 600, "g", true), // quantidade alterada
     new Ingredient("Açúcar", 250, "g", true), // quantidade alterada
-    new Ingredient("Ovos", 4, "unidades", true), // quantidade alterada
+    new Ingredient("Ovos", 4, "unit", true), // quantidade alterada
     new Ingredient("Leite", 300, "ml", true), // quantidade alterada
     new Ingredient("Manteiga", 150, "g", true), // quantidade alterada
     new Ingredient("Fermento em pó", 10, "g", true), // novo ingrediente
@@ -181,7 +183,7 @@ async function testEditRecipe() {
 
   // Criar receita atualizada (use um ID existente)
   const recipe = new Recipe(
-    1, // idRecipe existente (altere conforme necessário)
+    3, // idRecipe existente (altere conforme necessário)
     "Bolo Completo de Farinha", // nome alterado
     "dessert",
     10, // porções alteradas
@@ -202,7 +204,7 @@ async function testEditRecipe() {
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/edit",
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
@@ -216,8 +218,89 @@ async function testEditRecipe() {
   return result;
 }
 
+async function testEditUser() {
+  const user = new User(
+    null,
+    "Caio Atualizado",
+    "caiok9",
+    "caio@gmail.com",
+    "2007-04-12",
+    CryptoJS.MD5("novaSenha123").toString(CryptoJS.enc.Hex),
+    []
+  );
+
+  console.log("Dados do usuário para editar:", user);
+
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(user),
+    SECRET.SECRET_KEY
+  ).toString();
+
+  const response = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/user/edit",
+    {
+      method: "PUT",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ info: encrypted }),
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor (Edit User):", result);
+  return result;
+}
+
+async function testDeleteUser() {
+  var email = "caio@gmail.com";
+  var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
+
+  console.log("Deletando usuário:", email);
+
+  const response = await fetch(
+    `http://localhost/PUC/TDE/backend/index.php/user/delete?email=${encodeURIComponent(
+      email
+    )}&password=${encodeURIComponent(password)}`,
+    {
+      method: "DELETE",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor (Delete User):", result);
+  return result;
+}
+
+async function testDeleteRecipe() {
+  const recipeId = 1; // Altere conforme necessário
+
+  console.log("Deletando receita ID:", recipeId);
+
+  const response = await fetch(
+    `http://localhost/PUC/TDE/backend/index.php/recipe/delete?recipeId=${recipeId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const result = await response.json();
+  console.log("Resposta do servidor (Delete Recipe):", result);
+  return result;
+}
+
 window.testRegister = testRegister;
 window.testLogin = testLogin;
 window.testUser = testUser;
+window.testEditUser = testEditUser;
+window.testDeleteUser = testDeleteUser;
 window.testRegisterRecipe = testRegisterRecipe;
 window.testEditRecipe = testEditRecipe;
+window.testDeleteRecipe = testDeleteRecipe;

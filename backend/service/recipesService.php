@@ -39,7 +39,7 @@ function editRecipe(string $data): string{
     } else return json_encode(['success' => false, 'message' => 'failed to edit recipe']);
 }
 
-function deleteRecipe(string $idRecipe): string{
+function deleteRecipe(int $idRecipe): string{
     if (deleteRecipeById($idRecipe)) return json_encode(['success' => true, 'message' => 'recipe successfully deleted']);
     else return json_encode(['success' => false, 'message' => 'failed to delete recipe']);
 }

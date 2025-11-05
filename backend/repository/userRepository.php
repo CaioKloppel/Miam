@@ -31,7 +31,7 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em findUserByEmailOrNickAndPassword: " . $e->getMessage());
+        error_log("Erro em findUserByEmailOrNickAndPassword: " . $e->getMessage());
         return null;
     }
 }
@@ -64,7 +64,7 @@ function checkUser(string $userEmailOrNick, string $password) : ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em checkUser: " . $e->getMessage());
+        error_log("Erro em checkUser: " . $e->getMessage());
         return null;
     }
 }
@@ -97,7 +97,7 @@ function setNewUser(User $user) : ?bool {
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em setNewUser: " . $e->getMessage());
+        error_log("Erro em setNewUser: " . $e->getMessage());
         return null;
     }
 }
@@ -131,20 +131,21 @@ function updateUser(User $user): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em updateUser: " . $e->getMessage());
+        error_log("Erro em updateUser: " . $e->getMessage());
         return null;
     }
+}
 
-    function deleteUserByIdAndPassword(int $ID_user, string $password): ?bool{
+    function deleteUserByEmailAndPassword(string $email, string $password): ?bool{
         try{
             $con = GetCon::getInstance()->returnCon();
             $stmt = mysqli_stmt_init($con);
             
-            $query = 'DELETE from users WHERE ID_user = ? and password = ?';
+            $query = 'DELETE from users WHERE email = ? and password = ?';
 
             mysqli_stmt_prepare($stmt, $query);
 
-            mysqli_stmt_bind_param($stmt, 'is', $ID_user, $password);
+            mysqli_stmt_bind_param($stmt, 'ss', $email, $password);
 
             mysqli_stmt_execute($stmt);
             
@@ -159,10 +160,10 @@ function updateUser(User $user): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em deleteUser: " . $e->getMessage());
+        error_log("Erro em deleteUser: " . $e->getMessage());
         return null;
     }
-    }
 }
+
 
 ?>

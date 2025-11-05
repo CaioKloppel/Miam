@@ -21,12 +21,12 @@ function setNewStep(int $recipeId, Step $step): ?bool{
         mysqli_stmt_close($stmt);
 
         return true;
-    }catch (Exception $e) {
+    } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em setNewStep: " . $e->getMessage());
+        error_log("Erro em setNewStep: " . $e->getMessage());
         return null;
     }
     
@@ -61,7 +61,7 @@ function updateStep(int $recipeId, Step $step) : ?int{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em updateStep: " . $e->getMessage());
+        error_log("Erro em updateStep: " . $e->getMessage());
         return null;
     }
 }
@@ -84,12 +84,12 @@ function deleteStep(int $recipeId, int $numStep): ?bool{
         mysqli_stmt_close($stmt);
 
         return true;
-    }catch (Exception $e) {
+    } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em deleteStep: " . $e->getMessage());
+        error_log("Erro em deleteStep: " . $e->getMessage());
         return null;
     }
 }

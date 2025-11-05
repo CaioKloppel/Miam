@@ -28,7 +28,7 @@ function setNewIngredient(int $recipeId, Ingredient $ingredient): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em setNewIngredient: " . $e->getMessage());
+        error_log("Erro em setNewIngredient: " . $e->getMessage());
         return null;
     }
 }
@@ -64,7 +64,7 @@ function updateIngredient(int $recipeId, Ingredient $ingredient) : ?int{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em updateIngredient: " . $e->getMessage());
+        error_log("Erro em updateIngredient: " . $e->getMessage());
         return null;
     }
 }
@@ -91,7 +91,7 @@ function deleteIngredient(int $recipeId, string $ingredientName): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em deleteIngredient: " . $e->getMessage());
+        error_log("Erro em deleteIngredient: " . $e->getMessage());
         return null;
     }
 }

@@ -21,7 +21,7 @@ function recipeEdit(): void{
 function recipeDelete(): void{
     $recipeId = $_GET['recipeId'] ?? null;
 
-    if($recipeId) echo deleteRecipe($recipeId);
+    if($recipeId) echo deleteRecipe((int)$recipeId);
     else echo json_encode(['success' => false, 'message' => 'recipe delete information not provided']);
 }
 

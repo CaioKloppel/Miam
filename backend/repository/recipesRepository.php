@@ -73,7 +73,7 @@ function findRecipeById(int $recipeId) : ?Recipe{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em findRecipeById: " . $e->getMessage());
+        error_log("Erro em findRecipeById: " . $e->getMessage());
         return null;
     }
 }
@@ -150,7 +150,7 @@ function findRecipesByUserId(int $userId) : ?array{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em findRecipesByUserId: " . $e->getMessage());
+        error_log("Erro em findRecipesByUserId: " . $e->getMessage());
         return null;
     }
 }
@@ -195,8 +195,8 @@ function setNewRecipe(int $userId, Recipe $recipe): ?bool{
             mysqli_stmt_close($stmt);
         }
 
-        echo("Erro em setNewRecipe: " . $e->getMessage());
-        return null;
+        error_log("Erro em setNewRecipe: " . $e->getMessage());
+        return false;
     }
 }
 
@@ -218,6 +218,8 @@ function updateRecipe(Recipe $recipe): ?bool{
         $Food_Image = $recipe->getImage();
          
         $oldRecipe = findRecipeById($ID_Food_recipe);
+
+        if (!$oldRecipe) return false;
 
         mysqli_stmt_prepare($stmt, $query);
         mysqli_stmt_bind_param($stmt, 'ssidisi', $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image, $ID_Food_recipe);
@@ -273,8 +275,8 @@ function updateRecipe(Recipe $recipe): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em updateRecipe: " . $e->getMessage());
-        return null;
+        error_log("Erro em updateRecipe: " . $e->getMessage());
+        return false;
     }
 }
 
@@ -298,7 +300,7 @@ function deleteRecipeById(int $idRecipe): ?bool{
             mysqli_stmt_close($stmt);
         }
         
-        echo("Erro em updateRecipe: " . $e->getMessage());
+        error_log("Erro em updateRecipe: " . $e->getMessage());
         return null;
     }
 }

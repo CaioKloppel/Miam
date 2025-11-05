@@ -60,8 +60,8 @@ function returnUser(string $email, string $password): string{
     
 }
 
-function deleteUser(int $idUser, string $password): string{
-    if (deleteUserByIdAndPassword($idUser, $password)) return json_encode(['sucess' => true, 'message' => 'user successfully deleted']);
+function deleteUser(string $email, string $password): string{
+    if (deleteUserByEmailAndPassword($email, $password)) return json_encode(['sucess' => true, 'message' => 'user successfully deleted']);
     else return json_encode(['sucess' => false, 'message' => 'failed to deleted user']);
 }
 
