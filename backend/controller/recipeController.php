@@ -2,22 +2,27 @@
 
 require_once __DIR__ . '/../service/recipesService.php';
 
-function recipeRegister(){
+function recipeRegister(): void{
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if(isset($data['info'])){
-        echo registerRecipe($data['info']);
-    } else echo json_encode(['success' => false, 'message' => 'recipe register information not provided']);
+    if(isset($data['info'])) echo registerRecipe($data['info']);
+    else echo json_encode(['success' => false, 'message' => 'recipe register information not provided']);
 }
 
-function recipeEdit(){
+function recipeEdit(): void{
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if(isset($data['info'])){
-        echo editRecipe($data['info']);
-    } else echo json_encode(['success' => false, 'message' => 'recipe edit information not provided']);
+    if(isset($data['info'])) echo editRecipe($data['info']);
+    else echo json_encode(['success' => false, 'message' => 'recipe edit information not provided']);
+}
+
+function recipeDelete(): void{
+    $recipeId = $_GET['recipeId'] ?? null;
+
+    if($recipeId) echo deleteRecipe($recipeId);
+    else echo json_encode(['success' => false, 'message' => 'recipe delete information not provided']);
 }
 
 ?>
