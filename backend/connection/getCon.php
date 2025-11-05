@@ -26,14 +26,14 @@ class GetCon{
         mysqli_set_charset($this->con, "utf8mb4");
     }
 
-    public static function getInstance(){
+    public static function getInstance(): GetCon{
         if(self::$getCon == null){
             self::$getCon = new GetCon();
         } return self::$getCon;
     }
 
-    public function returnCon(){return $this->con;}
-    public function closeCon(){
+    public function returnCon(): mysqli {return $this->con;}
+    public function closeCon(): void {
         if ($this->con){
             mysqli_close($this->con);
         }

@@ -14,7 +14,7 @@ class Ingredient implements JsonSerializable{
         $this->avaible = $avaible;
     }
 
-    public static function constructFromArray(array $ingredientInfo){
+    public static function constructFromArray(array $ingredientInfo): Ingredient{
         $ingredient = new Ingredient(
             $ingredientInfo['ingredient_name'],
             (float)$ingredientInfo['ingredient_quantity'],
@@ -25,7 +25,7 @@ class Ingredient implements JsonSerializable{
         return $ingredient;
     }
 
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): array {
         return [
             'name' => $this->name,
             'quantity' => $this->quantity,

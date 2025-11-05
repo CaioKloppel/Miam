@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../connection/getCon.php';
+require_once __DIR__ . '/../connection/GetCon.php';
 require_once __DIR__ . '/../model/User.php';
 
 function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password) : ?User {
@@ -36,7 +36,7 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
     }
 }
 
-function checkUser(string $userEmailOrNick, string $password) : bool{
+function checkUser(string $userEmailOrNick, string $password) : ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -65,11 +65,11 @@ function checkUser(string $userEmailOrNick, string $password) : bool{
         }
         
         echo("Erro em checkUser: " . $e->getMessage());
-        return false;
+        return null;
     }
 }
 
-function setNewUser(User $user) : bool {
+function setNewUser(User $user) : ?bool {
     try {
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -98,11 +98,11 @@ function setNewUser(User $user) : bool {
         }
         
         echo("Erro em setNewUser: " . $e->getMessage());
-        return false;
+        return null;
     }
 }
 
-function updateUser(User $user){
+function updateUser(User $user): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -132,10 +132,10 @@ function updateUser(User $user){
         }
         
         echo("Erro em updateUser: " . $e->getMessage());
-        return false;
+        return null;
     }
 
-    function deleteUserByIdAndPassword(int $ID_user, string $password){
+    function deleteUserByIdAndPassword(int $ID_user, string $password): ?bool{
         try{
             $con = GetCon::getInstance()->returnCon();
             $stmt = mysqli_stmt_init($con);

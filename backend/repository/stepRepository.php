@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../connection/getCon.php';
+require_once __DIR__ . '/../connection/GetCon.php';
 require_once __DIR__ . '/../model/Step.php';
 
-function setNewStep(int $recipeId, Step $step) {
+function setNewStep(int $recipeId, Step $step): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
 
@@ -19,6 +19,8 @@ function setNewStep(int $recipeId, Step $step) {
         mysqli_stmt_execute($stmt);
 
         mysqli_stmt_close($stmt);
+
+        return true;
     }catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
@@ -64,7 +66,7 @@ function updateStep(int $recipeId, Step $step) : ?int{
     }
 }
 
-function deleteStep(int $recipeId, int $numStep){
+function deleteStep(int $recipeId, int $numStep): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
 
@@ -75,7 +77,7 @@ function deleteStep(int $recipeId, int $numStep){
 
         mysqli_stmt_prepare($stmt, $query);
 
-        mysqli_stmt_bind_param($stmt, 'ii', $ID_Food_recipe, $Num_step);
+        mysqli_stmt_bind_param($stmt, 'ii', $recipeId, $numStep);
 
         mysqli_stmt_execute($stmt);
 

@@ -19,7 +19,7 @@ class Step implements JsonSerializable{
         return $step;
     }
 
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): array {
         return [
             'numStep' => $this->numStep,
             'description' => $this->description

@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../connection/getCon.php';
+require_once __DIR__ . '/../connection/GetCon.php';
 require_once __DIR__ . '/../model/Ingredient.php';
 
-function setNewIngredient(int $recipeId, Ingredient $ingredient){
+function setNewIngredient(int $recipeId, Ingredient $ingredient): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
 
@@ -21,6 +21,8 @@ function setNewIngredient(int $recipeId, Ingredient $ingredient){
         mysqli_stmt_execute($stmt);
 
         mysqli_stmt_close($stmt);
+
+        return true;
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
@@ -67,7 +69,7 @@ function updateIngredient(int $recipeId, Ingredient $ingredient) : ?int{
     }
 }
 
-function deleteIngredient(int $recipeId, string $ingredientName){
+function deleteIngredient(int $recipeId, string $ingredientName): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
 

@@ -5,7 +5,7 @@ require_once __DIR__ . '/../repository/userRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 require_once __DIR__ . '/../repository/recipesRepository.php';
 
-function login(string $data){
+function login(string $data): string{
     $decrypted = decryptData($data);
     
     if ($decrypted === false || $decrypted === null) {
@@ -18,7 +18,7 @@ function login(string $data){
     else return json_encode(['success' => false, 'message' => 'incorret login information']);
 }
 
-function registerUser(string $data){
+function registerUser(string $data): string{
     $decrypted = decryptData($data);
     
     if ($decrypted === false || $decrypted === null) {
@@ -34,7 +34,7 @@ function registerUser(string $data){
      
 }
 
-function editUser($data){
+function editUser($data): string{
     $decrypted = decryptData($data);
     
     if ($decrypted === false || $decrypted === null) {
@@ -49,7 +49,7 @@ function editUser($data){
     else return json_encode(['success' => false, 'message' => 'failed to edit user']);
 }
 
-function returnUser(string $email, string $password){ 
+function returnUser(string $email, string $password): string{ 
     $user = findUserByEmailOrNickAndPassword($email, $password);
 
     if($user){
@@ -60,7 +60,7 @@ function returnUser(string $email, string $password){
     
 }
 
-function deleteUser(int $idUser, string $password){
+function deleteUser(int $idUser, string $password): string{
     if (deleteUserByIdAndPassword($idUser, $password)) return json_encode(['sucess' => true, 'message' => 'user successfully deleted']);
     else return json_encode(['sucess' => false, 'message' => 'failed to deleted user']);
 }

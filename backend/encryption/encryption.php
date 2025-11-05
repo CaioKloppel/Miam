@@ -6,7 +6,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
 
 
-function decryptData($encryptedData) {
+function decryptData($encryptedData): string {
     $SECRET_KEY = $_ENV['SECRET_KEY'];
 
     $encrypted = base64_decode($encryptedData);
@@ -33,7 +33,7 @@ function decryptData($encryptedData) {
     return $decrypted;
 }
 
-function encryptData($data) {
+function encryptData($data): string {
     $SECRET_KEY = $_ENV['SECRET_KEY'];
 
     if (is_array($data) || is_object($data)) {

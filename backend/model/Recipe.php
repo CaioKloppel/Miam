@@ -65,7 +65,7 @@ class Recipe implements JsonSerializable{
         return $recipe;
     }
 
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): array {
         return [
             'idRecipe' => $this->idRecipe,
             'name' => $this->name,

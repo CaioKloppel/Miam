@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../connection/getCon.php';
+require_once __DIR__ . '/../connection/GetCon.php';
 require_once __DIR__ . '/../model/Recipe.php';
 require_once __DIR__ . '/ingredientRepository.php';
 require_once __DIR__ . '/stepRepository.php';
@@ -155,7 +155,7 @@ function findRecipesByUserId(int $userId) : ?array{
     }
 }
 
-function setNewRecipe(int $userId, Recipe $recipe){
+function setNewRecipe(int $userId, Recipe $recipe): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -200,7 +200,7 @@ function setNewRecipe(int $userId, Recipe $recipe){
     }
 }
 
-function updateRecipe(Recipe $recipe) {
+function updateRecipe(Recipe $recipe): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -278,7 +278,7 @@ function updateRecipe(Recipe $recipe) {
     }
 }
 
-function deleteRecipeById(int $idRecipe){
+function deleteRecipeById(int $idRecipe): ?bool{
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -291,6 +291,8 @@ function deleteRecipeById(int $idRecipe){
 
         mysqli_execute($stmt);
         mysqli_stmt_close($stmt);
+
+        return true;
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);

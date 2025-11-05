@@ -34,7 +34,7 @@ class User implements JsonSerializable{
         return $user;
     }
 
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): array {
         return [
             'idUser' => $this->idUser,
             'name' => $this->name,
@@ -101,7 +101,7 @@ class User implements JsonSerializable{
         $this->recipes[] = $recipe;
     }
 
-    public function setAllRecipes(array $recipes){
+    public function setAllRecipes(array $recipes): void{
         $this->recipes = $recipes;
     }
 

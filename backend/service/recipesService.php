@@ -4,7 +4,7 @@ require_once __DIR__ . '/../model/Recipe.php';
 require_once __DIR__ . '/../repository/recipesRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 
-function registerRecipe(string $data){
+function registerRecipe(string $data): string{
     $decrypted = decryptData($data);
     
     if ($decrypted === false || $decrypted === null) {
@@ -23,7 +23,7 @@ function registerRecipe(string $data){
 
 }
 
-function editRecipe(string $data){
+function editRecipe(string $data): string{
     $decrypted = decryptData($data);
     
     if ($decrypted === false || $decrypted === null) {
@@ -39,7 +39,7 @@ function editRecipe(string $data){
     } else return json_encode(['success' => false, 'message' => 'failed to edit recipe']);
 }
 
-function deleteRecipe(string $idRecipe){
+function deleteRecipe(string $idRecipe): string{
     if (deleteRecipeById($idRecipe)) return json_encode(['success' => true, 'message' => 'recipe successfully deleted']);
     else return json_encode(['success' => false, 'message' => 'failed to delete recipe']);
 }
