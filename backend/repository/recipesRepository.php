@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../connection/getCon.php';
 require_once __DIR__ . '/../model/Recipe.php';
+require_once __DIR__ . '/ingredientRepository.php';
+require_once __DIR__ . '/stepRepository.php';
 
 function findRecipesByUserId(int $userId) : ?array{
     try{
@@ -102,7 +104,7 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
 
-        $query = 'INSERT INTO food_recipes(ID_user, Recipe_name, Category, Portions, Rating, Favourite, Food_Image) VALUES(?,?,?,?,?,?,?)';
+        $query = 'INSERT INTO food_recipes(ID_user, Recipe_name, Category, Portions, Rating, Favorite, Food_Image) VALUES(?,?,?,?,?,?,?)';
 
         $ID_user = $userId;
         $Recipe_name = $recipe->getName();
@@ -113,7 +115,7 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
         $Food_Image = $recipe->getImage();
 
         mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, 'issidib', $ID_user, $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image);
+        mysqli_stmt_bind_param($stmt, 'issidis', $ID_user, $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image);
         if ($Food_Image !== null) {
             mysqli_stmt_send_long_data($stmt, 6, $Food_Image);
         }
@@ -122,14 +124,13 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
         $recipeId = mysqli_insert_id($con);
 
         mysqli_stmt_close($stmt);
-        mysqli_close($con);
 
         foreach($recipe->getIngredients() as $ingredient){
             setNewIngredient($recipeId, $ingredient);
         } 
 
         foreach ($recipe->getSteps() as $step) {
-            setNewStep($recipeId,$step);
+            setNewStep($recipeId, $step);
         } 
 
         return true;
@@ -138,7 +139,7 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
             mysqli_stmt_close($stmt);
         }
 
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        error_log("Erro em setNewRecipe: " . $e->getMessage());
         return false;
     }
 }
@@ -148,8 +149,8 @@ function updateRecipe(Recipe $recipe) : bool{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
 
-        $query = 'UPDATE food_recipe
-        SET Recipe_name = ?, Category = ?, Portions ?, Rating = ?, Favorite = ?, Food_image = ?
+        $query = 'UPDATE food_recipes
+        SET Recipe_name = ?, Category = ?, Portions = ?, Rating = ?, Favorite = ?, Food_image = ?
         WHERE ID_Food_recipe = ?';
 
         $ID_Food_recipe = $recipe->getIdRecipe();
@@ -161,7 +162,7 @@ function updateRecipe(Recipe $recipe) : bool{
         $Food_Image = $recipe->getImage();
 
         mysqli_stmt_prepare($stmt, $query);
-        mysqli_stmt_bind_param($stmt, 'ssidibi', $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image, $ID_Food_recipe);
+        mysqli_stmt_bind_param($stmt, 'ssidisi', $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image, $ID_Food_recipe);
         if ($Food_Image !== null) {
             mysqli_stmt_send_long_data($stmt, 5, $Food_Image);
         }
@@ -169,14 +170,14 @@ function updateRecipe(Recipe $recipe) : bool{
 
         $newIngredients = [];
         foreach($recipe->getIngredients() as $ingredient){
-            $affectedRows = updateIngredient($ingredient);
+            $affectedRows = updateIngredient($ID_Food_recipe, $ingredient);
 
             if ($affectedRows == 0) $newIngredients[] = $ingredient;
         } 
 
         $newSteps = [];
         foreach($recipe->getSteps() as $step){
-            $affectedRows = updateStep($step); 
+            $affectedRows = updateStep($ID_Food_recipe, $step); 
 
             if ($affectedRows == 0) $newSteps[] = $step;
         }
@@ -186,7 +187,7 @@ function updateRecipe(Recipe $recipe) : bool{
         }
 
         foreach($newSteps as $step){
-            setNewStep($ID_Food_recipe, $$ingredient);
+            setNewStep($ID_Food_recipe, $step);
         }
 
         return true;

@@ -19,7 +19,7 @@ class Ingredient implements JsonSerializable{
             'name' => $this->name,
             'quantity' => $this->quantity,
             'typeQuantity' => $this->typeQuantity,
-            'available' => $this->avaible
+            'avaible' => $this->avaible
         ];
     }
 

@@ -31,7 +31,7 @@ function setNewIngredient(int $recipeId, Ingredient $ingredient){
     }
 }
 
-function updateIngredient(Ingredient $ingredient) : ?int{
+function updateIngredient(int $recipeId, Ingredient $ingredient) : ?int{
     try{
         $con = GetCon::getInstance()->returnCon();
 
@@ -43,6 +43,7 @@ function updateIngredient(Ingredient $ingredient) : ?int{
 
         mysqli_stmt_prepare($stmt, $query);
         
+        $ID_Food_recipe = $recipeId;
         $Ingredient_name = $ingredient->getName();
         $Quantity = $ingredient->getQuantity();
         $Type_quantity = $ingredient->getTypeQuantity();
@@ -51,9 +52,11 @@ function updateIngredient(Ingredient $ingredient) : ?int{
         mysqli_stmt_bind_param($stmt, 'dsiis', $Quantity, $Type_quantity, $Avaible, $ID_Food_recipe, $Ingredient_name);
         mysqli_stmt_execute($stmt);
 
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+
         mysqli_stmt_close($stmt);
 
-        return mysqli_stmt_affected_rows($stmt);
+        return $affectedRows;
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);

@@ -29,12 +29,12 @@ class Recipe implements JsonSerializable{
 
     public static function constructFromArray(array $recipeInfo) : Recipe {
         $recipe = new Recipe(
-            0,
+            isset($recipeInfo['idRecipe']) ? (int)$recipeInfo['idRecipe'] : 0,
             $recipeInfo['name'],
-            $recipeInfo['categoy'],
+            $recipeInfo['category'],
             (int)$recipeInfo['portions'],
             (float)$recipeInfo['rating'],
-            (bool)$recipeInfo['rating'],
+            (bool)$recipeInfo['favorite'],
             $recipeInfo['image'],
             [],
             []

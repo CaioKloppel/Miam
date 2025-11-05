@@ -17,13 +17,13 @@ async function testRegister() {
 
   console.log("Dados do usuário:", user);
 
-  var crypto = new JSEncrypt();
-  crypto.setPublicKey(SECRET.SECRET_KEY);
-
-  const encrypted = crypto.encrypt(JSON.stringify(user));
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(user),
+    SECRET.SECRET_KEY
+  ).toString();
 
   const response = await fetch(
-    "http://localhost/PUC/TDE/backend/index.php/register",
+    "http://localhost/PUC/TDE/backend/index.php/user/register",
     {
       method: "POST",
       headers: {
@@ -39,20 +39,20 @@ async function testRegister() {
 }
 
 async function testLogin() {
-  var emailNick = "carol";
+  var emailNick = "caio@gmail.com";
   var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
-  console.log("Email/Nick:", emailNick);
-  console.log("Password:", password);
+  console.log("email/nick:", emailNick);
+  console.log("password:", password);
 
   const loginData = {
     "email/nick": emailNick,
     password: password,
   };
 
-  var crypto = new JSEncrypt();
-  crypto.setPublicKey(SECRET.SECRET_KEY);
-
-  const encrypted = crypto.encrypt(JSON.stringify(loginData));
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(loginData),
+    SECRET.SECRET_KEY
+  ).toString();
 
   console.log("Dados criptografados:", encrypted);
 
@@ -95,7 +95,7 @@ async function testRegisterRecipe() {
   const ingredients = [
     new Ingredient("Farinha de trigo", 500, "g", true),
     new Ingredient("Açúcar", 200, "g", true),
-    new Ingredient("Ovos", 3, "unidades", true),
+    new Ingredient("Ovos", 3, "unit", true),
     new Ingredient("Leite", 250, "ml", true),
     new Ingredient("Manteiga", 100, "g", true),
   ];
@@ -113,7 +113,7 @@ async function testRegisterRecipe() {
   const recipe = new Recipe(
     null, // idRecipe (será gerado pelo backend)
     "Bolo Simples de Farinha",
-    "Sobremesas",
+    "dessert",
     8, // porções
     0, // rating inicial
     false, // não é favorito ainda
@@ -125,14 +125,14 @@ async function testRegisterRecipe() {
   console.log("Dados da receita:", recipe);
 
   const registerRecipe = {
-    userId: 9,
+    userId: 1,
     recipe: recipe,
   };
 
-  var crypto = new JSEncrypt();
-  crypto.setPublicKey(SECRET.SECRET_KEY);
-
-  const encrypted = crypto.encrypt(JSON.stringify(registerRecipe));
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(registerRecipe),
+    SECRET.SECRET_KEY
+  ).toString();
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/register",
@@ -183,26 +183,26 @@ async function testEditRecipe() {
   const recipe = new Recipe(
     1, // idRecipe existente (altere conforme necessário)
     "Bolo Completo de Farinha", // nome alterado
-    "Sobremesas",
+    "dessert",
     10, // porções alteradas
     4.5, // rating atualizado
     true, // agora é favorito
-    "https://example.com/bolo-completo.jpg", // imagem atualizada
+    null, // imagem atualizada
     steps,
     ingredients
   );
 
   console.log("Dados da receita atualizada:", recipe);
 
-  var crypto = new JSEncrypt();
-  crypto.setPublicKey(SECRET.SECRET_KEY);
-
-  const encrypted = crypto.encrypt(JSON.stringify(recipe));
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(recipe),
+    SECRET.SECRET_KEY
+  ).toString();
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/edit",
     {
-      method: "PUT",
+      method: "POST",
       headers: {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",

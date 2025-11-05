@@ -30,7 +30,7 @@ function setNewStep(int $recipeId, Step $step) {
     
 }
 
-function updateStep(Step $step) : ?int{
+function updateStep(int $recipeId, Step $step) : ?int{
     try{
         $con = GetCon::getInstance()->returnCon();
 
@@ -42,15 +42,18 @@ function updateStep(Step $step) : ?int{
 
         mysqli_stmt_prepare($stmt, $query);
 
+        $ID_Food_recipe = $recipeId;
         $Num_step = $step->getNumStep();
         $Description = $step->getDescription();
 
         mysqli_stmt_bind_param($stmt, 'sii', $Description, $ID_Food_recipe, $Num_step);
 
         mysqli_stmt_execute($stmt);
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+
         mysqli_stmt_close($stmt);
 
-        return mysqli_stmt_affected_rows($stmt);
+        return $affectedRows;
     }catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
