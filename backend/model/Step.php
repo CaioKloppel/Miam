@@ -10,6 +10,15 @@ class Step implements JsonSerializable{
         $this->description = $description;
     }
 
+    public static function constructFromArray(array $infoStep) : Step{
+        $step = new Step(
+            (int)$infoStep['num_step'],
+            $infoStep['step_description']
+        );
+
+        return $step;
+    }
+
     public function jsonSerialize(): mixed {
         return [
             'numStep' => $this->numStep,

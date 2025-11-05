@@ -5,7 +5,13 @@ require_once __DIR__ . '/../repository/recipesRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 
 function registerRecipe(string $data){
-    $infoRecipeRegister = json_decode(decryptData($data), true);
+    $decrypted = decryptData($data);
+    
+    if ($decrypted === false || $decrypted === null) {
+        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+    }
+
+    $infoRecipeRegister = json_decode($decrypted, true);
 
     $userId = (int)$infoRecipeRegister['userId'];
     
@@ -18,13 +24,24 @@ function registerRecipe(string $data){
 }
 
 function editRecipe(string $data){
-    $infoRecipeEdit = json_decode(decryptData($data), true);
+    $decrypted = decryptData($data);
+    
+    if ($decrypted === false || $decrypted === null) {
+        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+    }
+
+    $infoRecipeEdit = json_decode($decrypted, true);
 
     $recipe = Recipe::constructFromArray($infoRecipeEdit);
 
     if(updateRecipe($recipe)){
         return json_encode(['success' => true, 'message' => 'recipe successfully edited']);
     } else return json_encode(['success' => false, 'message' => 'failed to edit recipe']);
+}
+
+function deleteRecipe(string $idRecipe){
+    if (deleteRecipeById($idRecipe)) return json_encode(['success' => true, 'message' => 'recipe successfully deleted']);
+    else return json_encode(['success' => false, 'message' => 'failed to delete recipe']);
 }
 
 ?>

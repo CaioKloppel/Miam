@@ -27,18 +27,20 @@ class Recipe implements JsonSerializable{
         $this->ingredients = $ingredients;
     }
 
-    public static function constructFromArray(array $recipeInfo) : Recipe {
+    public static function constructFromArray(array $recipeInfo, $mysql=false) : Recipe {
         $recipe = new Recipe(
-            isset($recipeInfo['idRecipe']) ? (int)$recipeInfo['idRecipe'] : 0,
-            $recipeInfo['name'],
+            $mysql ? (int)$recipeInfo['ID_Food_recipe'] : (isset($recipeInfo['idRecipe']) ? (int)$recipeInfo['idRecipe'] : 0),
+            $mysql ? $recipeInfo['recipe_name'] : $recipeInfo['name'],
             $recipeInfo['category'],
             (int)$recipeInfo['portions'],
             (float)$recipeInfo['rating'],
             (bool)$recipeInfo['favorite'],
-            $recipeInfo['image'],
+            $mysql ? $recipeInfo['Food_image'] : $recipeInfo['image'],
             [],
             []
         );
+
+        if ($mysql) return $recipe;
 
         foreach($recipeInfo['ingredients'] as $ingredient){
             $recipe->setIngredients(

@@ -29,10 +29,24 @@ function registerUser(string $data){
     
     $user = User::constructFromArray($infoUserRegister);
 
-    if(setNewUser($user)){
-        return json_encode(['success' => true, 'message' => 'user successfully registered']);
-    } else return json_encode(['success' => false, 'message' => 'failed to register user']);
+    if(setNewUser($user)) return json_encode(['success' => true, 'message' => 'user successfully registered']);
+    else return json_encode(['success' => false, 'message' => 'failed to register user']);
      
+}
+
+function editUser($data){
+    $decrypted = decryptData($data);
+    
+    if ($decrypted === false || $decrypted === null) {
+        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+    }
+
+    $infoUserEdit = json_decode($decrypted, true);
+    
+    $user = User::constructFromArray($infoUserEdit);
+
+    if(updateUser($user)) return json_encode(['success' => true, 'message' => 'user successfully edited']);
+    else return json_encode(['success' => false, 'message' => 'failed to edit user']);
 }
 
 function returnUser(string $email, string $password){ 
@@ -46,5 +60,9 @@ function returnUser(string $email, string $password){
     
 }
 
+function deleteUser(int $idUser, string $password){
+    if (deleteUserByIdAndPassword($idUser, $password)) return json_encode(['sucess' => true, 'message' => 'user successfully deleted']);
+    else return json_encode(['sucess' => false, 'message' => 'failed to deleted user']);
+}
 
 ?>

@@ -25,21 +25,13 @@ function findUserByEmailOrNickAndPassword(string $emailOrNick, string $password)
             return null;
         }
     
-        return new User(
-            (int)$row['ID_user'],
-            $row['name'],
-            $row['nickname'],
-            $row['email'],
-            new DateTime($row['birth_date']),
-            $row['password'],
-            []
-        );
+        return User::constructFromArray($row, true);
     } catch (Exception $e) {
         if (isset($stmt)) {
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em findUserByEmailOrNickAndPassword: " . $e->getMessage());
         return null;
     }
 }
@@ -72,7 +64,7 @@ function checkUser(string $userEmailOrNick, string $password) : bool{
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em checkUser: " . $e->getMessage());
+        echo("Erro em checkUser: " . $e->getMessage());
         return false;
     }
 }
@@ -105,8 +97,71 @@ function setNewUser(User $user) : bool {
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em setNewUser: " . $e->getMessage());
         return false;
+    }
+}
+
+function updateUser(User $user){
+    try{
+        $con = GetCon::getInstance()->returnCon();
+        $stmt = mysqli_stmt_init($con);
+        
+        $query = 'UPDATE users SET
+        name = ?, nickname = ?, password = ?
+        where ID_user = ?';
+
+        mysqli_stmt_prepare($stmt, $query);
+
+        $ID_user = $user->getPassword();
+        $name = $user->getName();
+        $nickname = $user->getNickname();
+        $password = $user->getPassword();
+
+        mysqli_stmt_bind_param($stmt, 'sssi', $name, $nickname, $password, $ID_user);
+
+        mysqli_stmt_execute($stmt);
+        
+        mysqli_stmt_close($stmt);
+
+        return true;
+
+    } catch (Exception $e){
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em updateUser: " . $e->getMessage());
+        return false;
+    }
+
+    function deleteUserByIdAndPassword(int $ID_user, string $password){
+        try{
+            $con = GetCon::getInstance()->returnCon();
+            $stmt = mysqli_stmt_init($con);
+            
+            $query = 'DELETE from users WHERE ID_user = ? and password = ?';
+
+            mysqli_stmt_prepare($stmt, $query);
+
+            mysqli_stmt_bind_param($stmt, 'is', $ID_user, $password);
+
+            mysqli_stmt_execute($stmt);
+            
+            $affectedRows = mysqli_stmt_affected_rows($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            return $affectedRows > 0;
+
+        } catch (Exception $e){
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em deleteUser: " . $e->getMessage());
+        return null;
+    }
     }
 }
 

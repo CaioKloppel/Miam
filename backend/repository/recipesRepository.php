@@ -4,6 +4,80 @@ require_once __DIR__ . '/../model/Recipe.php';
 require_once __DIR__ . '/ingredientRepository.php';
 require_once __DIR__ . '/stepRepository.php';
 
+function findRecipeById(int $recipeId) : ?Recipe{
+    try{
+        $con = GetCon::getInstance()->returnCon();
+        $stmt = mysqli_stmt_init($con);
+    
+        $query = 'SELECT  r.ID_Food_recipe, 
+        r.Recipe_name as recipe_name, 
+        r.category, 
+        r.portions, 
+        r.rating, 
+        r.favorite, 
+        r.Food_image,
+        i.Ingredient_name as ingredient_name, 
+        i.quantity as ingredient_quantity, 
+        i.type_quantity as ingredient_type,
+        i.Avaible as ingredient_available,
+        s.num_step, 
+        s.description as step_description
+        FROM food_recipes r 
+        LEFT JOIN ingredients i ON r.ID_Food_recipe = i.ID_Food_recipe 
+        LEFT JOIN steps s ON r.ID_Food_recipe = s.ID_Food_recipe 
+        WHERE r.ID_Food_recipe = ?
+        ORDER BY s.num_step';
+    
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $recipeId);
+        mysqli_stmt_execute($stmt);
+    
+        $result = mysqli_stmt_get_result($stmt);
+    
+        $recipe = null;
+        $addedIngredients = [];
+        $addedSteps = [];
+    
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($recipe === null) {
+                $recipe = Recipe::constructFromArray($row, true);
+            }
+    
+            if ($row['ingredient_name'] !== null) {
+                $ingredientKey = $row['ingredient_name'];
+                if (!in_array($ingredientKey, $addedIngredients)) {
+                    $recipe->setIngredients(
+                        Ingredient::constructFromArray($row)
+                    );
+                    $addedIngredients[] = $ingredientKey;
+                }
+            }
+    
+            if ($row['num_step'] !== null) {
+                $stepKey = $row['num_step'];
+                if (!in_array($stepKey, $addedSteps)) {
+                    $recipe->setSteps(
+                        Step::constructFromArray($row)
+                    );
+                    $addedSteps[] = $stepKey;
+                }
+            }
+        }
+    
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
+        
+        return $recipe;
+    } catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em findRecipeById: " . $e->getMessage());
+        return null;
+    }
+}
+
 function findRecipesByUserId(int $userId) : ?array{
     try{
         
@@ -41,17 +115,7 @@ function findRecipesByUserId(int $userId) : ?array{
             $recipeId = $row['ID_Food_recipe'];
     
             if (!isset($recipesData[$recipeId])) {
-                $recipesData[$recipeId] = new Recipe(
-                    (int)$row['ID_Food_recipe'],
-                    $row['recipe_name'],
-                    $row['category'],
-                    (int)$row['portions'],
-                    (float)$row['rating'],
-                    (bool)$row['favorite'],
-                    $row['Food_image'],
-                    [],
-                    []
-                );
+                $recipesData[$recipeId] = Recipe::constructFromArray($row, true);
                 $addedIngredients[$recipeId] = [];
                 $addedSteps[$recipeId] = [];
             }
@@ -60,12 +124,7 @@ function findRecipesByUserId(int $userId) : ?array{
                 $ingredientKey = $row['ingredient_name'];
                 if (!in_array($ingredientKey, $addedIngredients[$recipeId])) {
                     $recipesData[$recipeId]->setIngredients(
-                        new Ingredient(
-                            $row['ingredient_name'],
-                            (float)$row['ingredient_quantity'],
-                            $row['ingredient_type'],
-                            (bool)$row['ingredient_available']
-                        )
+                        Ingredient::constructFromArray($row)
                     );
                     $addedIngredients[$recipeId][] = $ingredientKey;
                 }
@@ -75,10 +134,7 @@ function findRecipesByUserId(int $userId) : ?array{
                 $stepKey = $row['num_step'];
                 if (!in_array($stepKey, $addedSteps[$recipeId])) {
                     $recipesData[$recipeId]->setSteps(
-                        new Step(
-                            (int)$row['num_step'],
-                            $row['step_description']
-                        )
+                        Step::constructFromArray($row)
                     );
                     $addedSteps[$recipeId][] = $stepKey;
                 }
@@ -94,12 +150,12 @@ function findRecipesByUserId(int $userId) : ?array{
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em findRecipesByUserId: " . $e->getMessage());
         return null;
     }
 }
 
-function setNewRecipe(int $userId, Recipe $recipe) : bool{
+function setNewRecipe(int $userId, Recipe $recipe){
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -139,12 +195,12 @@ function setNewRecipe(int $userId, Recipe $recipe) : bool{
             mysqli_stmt_close($stmt);
         }
 
-        error_log("Erro em setNewRecipe: " . $e->getMessage());
-        return false;
+        echo("Erro em setNewRecipe: " . $e->getMessage());
+        return null;
     }
 }
 
-function updateRecipe(Recipe $recipe) : bool{
+function updateRecipe(Recipe $recipe) {
     try{
         $con = GetCon::getInstance()->returnCon();
         $stmt = mysqli_stmt_init($con);
@@ -160,6 +216,8 @@ function updateRecipe(Recipe $recipe) : bool{
         $Rating = $recipe->getRating();
         $Favourite = $recipe->getFavorite() ? 1 : 0;
         $Food_Image = $recipe->getImage();
+         
+        $oldRecipe = findRecipeById($ID_Food_recipe);
 
         mysqli_stmt_prepare($stmt, $query);
         mysqli_stmt_bind_param($stmt, 'ssidisi', $Recipe_name, $Category, $Portions, $Rating, $Favourite, $Food_Image, $ID_Food_recipe);
@@ -167,6 +225,25 @@ function updateRecipe(Recipe $recipe) : bool{
             mysqli_stmt_send_long_data($stmt, 5, $Food_Image);
         }
         mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+        foreach($oldRecipe->getIngredients() as $oldIngredient){
+            $find = false;
+            foreach($recipe->getIngredients() as $newIngredient){
+                if ($oldIngredient->getName() === $newIngredient->getName()) $find = true;
+            }
+
+            if(!$find) deleteIngredient($ID_Food_recipe, $oldIngredient->getName());
+        }
+
+        foreach($oldRecipe->getSteps() as $oldStep){
+            $find = false;
+            foreach($recipe->getSteps() as $newStep){
+                if ($oldStep->getNumStep() === $newStep->getNumStep()) $find = true;
+            }
+
+            if(!$find) deleteStep($ID_Food_recipe, $oldStep->getNumStep());
+        }
 
         $newIngredients = [];
         foreach($recipe->getIngredients() as $ingredient){
@@ -196,8 +273,31 @@ function updateRecipe(Recipe $recipe) : bool{
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
-        return false;
+        echo("Erro em updateRecipe: " . $e->getMessage());
+        return null;
+    }
+}
+
+function deleteRecipeById(int $idRecipe){
+    try{
+        $con = GetCon::getInstance()->returnCon();
+        $stmt = mysqli_stmt_init($con);
+
+        $query = 'DELETE from food_recipes
+        WHERE ID_Food_recipe = ?';
+
+        mysqli_stmt_prepare($stmt, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $idRecipe);
+
+        mysqli_execute($stmt);
+        mysqli_stmt_close($stmt);
+    } catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em updateRecipe: " . $e->getMessage());
+        return null;
     }
 }
 

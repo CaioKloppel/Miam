@@ -20,13 +20,13 @@ class User implements JsonSerializable{
         $this->recipes = $recipes;
     }
 
-    public static function constructFromArray(array $userInfo){
+    public static function constructFromArray(array $userInfo, bool $mysql=false) : User{
         $user = new User(
-            0,
+            $mysql ? $userInfo['ID_user'] : 0,
             $userInfo['name'],
             $userInfo['nickname'],
             $userInfo['email'],
-            new DateTime($userInfo['birthDate']),
+            $mysql ? new DateTime($userInfo['birth_date']) : new DateTime($userInfo['birthDate']),
             $userInfo['password'],
             []
         );

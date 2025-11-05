@@ -24,7 +24,7 @@ function setNewStep(int $recipeId, Step $step) {
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em setNewStep: " . $e->getMessage());
         return null;
     }
     
@@ -59,7 +59,35 @@ function updateStep(int $recipeId, Step $step) : ?int{
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em updateStep: " . $e->getMessage());
+        return null;
+    }
+}
+
+function deleteStep(int $recipeId, int $numStep){
+    try{
+        $con = GetCon::getInstance()->returnCon();
+
+        $stmt = mysqli_stmt_init($con);
+
+        $query = 'DELETE from steps
+        WHERE ID_Food_recipe = ? and Num_step = ?';
+
+        mysqli_stmt_prepare($stmt, $query);
+
+        mysqli_stmt_bind_param($stmt, 'ii', $ID_Food_recipe, $Num_step);
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        return true;
+    }catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em deleteStep: " . $e->getMessage());
         return null;
     }
 }

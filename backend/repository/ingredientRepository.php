@@ -26,7 +26,7 @@ function setNewIngredient(int $recipeId, Ingredient $ingredient){
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em setNewIngredient: " . $e->getMessage());
         return null;
     }
 }
@@ -62,7 +62,34 @@ function updateIngredient(int $recipeId, Ingredient $ingredient) : ?int{
             mysqli_stmt_close($stmt);
         }
         
-        error_log("Erro em setNewUser: " . $e->getMessage());
+        echo("Erro em updateIngredient: " . $e->getMessage());
+        return null;
+    }
+}
+
+function deleteIngredient(int $recipeId, string $ingredientName){
+    try{
+        $con = GetCon::getInstance()->returnCon();
+
+        $stmt = mysqli_stmt_init($con);
+
+        $query = 'DELETE from ingredients
+        WHERE ID_Food_recipe = ? and Ingredient_name = ?';
+
+        mysqli_stmt_prepare($stmt, $query);
+
+        mysqli_stmt_bind_param($stmt, 'is', $recipeId, $ingredientName);
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        return true;
+    } catch (Exception $e) {
+        if (isset($stmt)) {
+            mysqli_stmt_close($stmt);
+        }
+        
+        echo("Erro em deleteIngredient: " . $e->getMessage());
         return null;
     }
 }
