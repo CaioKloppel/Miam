@@ -33,7 +33,7 @@ function getUser(): void{
     else echo json_encode(['success' => false, 'message' => 'information to return user not provided']);
 }
 
-function deleteUser(): void{
+function userDelete(): void{
     $userId = $_GET['userId'] ?? null;
     $password = $_GET['password'] ?? null;
     if($userId and $password) echo deleteUser($userId, $password);
