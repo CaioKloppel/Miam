@@ -6,9 +6,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
 
 
-function decryptData($encryptedData): string {
-    $SECRET_KEY = $_ENV['SECRET_KEY'];
-
+function decryptDataSymmetric($encryptedData, $SECRET_KEY): string {
     $encrypted = base64_decode($encryptedData);
     
     $salt = substr($encrypted, 8, 8);
@@ -33,7 +31,7 @@ function decryptData($encryptedData): string {
     return $decrypted;
 }
 
-function encryptData($data): string {
+function encryptDataSymmetric($data, $SECRET_KEY): string {
     $SECRET_KEY = $_ENV['SECRET_KEY'];
 
     if (is_array($data) || is_object($data)) {
@@ -63,4 +61,26 @@ function encryptData($data): string {
     return base64_encode($result);
 }
 
+function decryptDataAssymetric(string $data, $privateKeyPath= __DIR__ . '/../private_key.pem'){
+    $privateKey = openssl_pkey_get_private(file_get_contents($privateKeyPath));
+    
+    $encrypted = base64_decode($data);
+    
+    openssl_private_decrypt($encrypted, $decrypted, $privateKey);
+    
+    return $decrypted;
+}
+
+
+function encryptDataAssymetric(string $data, $privateKeyPath= __DIR__ . '/../private_key.pem'){
+    if (is_array($data) || is_object($data)) {
+        $data = json_encode($data);
+    }
+    
+    $publicKey = openssl_pkey_get_private(file_get_contents($privateKeyPath));
+    
+    openssl_private_encrypt($data, $encrypted, $publicKey);
+    
+    return base64_encode($encrypted);
+}
 ?>

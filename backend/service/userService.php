@@ -5,8 +5,9 @@ require_once __DIR__ . '/../repository/userRepository.php';
 require_once __DIR__ . '/../encryption/encryption.php';
 require_once __DIR__ . '/../repository/recipesRepository.php';
 
-function login(string $data): string{
-    $decrypted = decryptData($data);
+function login(string $dataMessage, string $dataKey): string{
+    $decryptedKey = decryptDataAssymetric($dataKey);
+    $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
         return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
@@ -18,8 +19,9 @@ function login(string $data): string{
     else return json_encode(['success' => false, 'message' => 'incorret login information']);
 }
 
-function registerUser(string $data): string{
-    $decrypted = decryptData($data);
+function registerUser(string $dataMessage, string $dataKey): string{
+    $decryptedKey = decryptDataAssymetric($dataKey);
+    $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
         return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
@@ -34,8 +36,9 @@ function registerUser(string $data): string{
      
 }
 
-function editUser($data): string{
-    $decrypted = decryptData($data);
+function editUser(string $dataMessage, string $dataKey): string{
+    $decryptedKey = decryptDataAssymetric($dataKey);
+    $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
         return json_encode(['success' => false, 'message' => 'failed to decrypt data']);

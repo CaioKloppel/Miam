@@ -17,10 +17,29 @@ async function testRegister() {
 
   console.log("Dados do usuário:", user);
 
-  const encrypted = CryptoJS.AES.encrypt(
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedMessage = CryptoJS.AES.encrypt(
     JSON.stringify(user),
-    SECRET.SECRET_KEY
+    randomKey
   ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey.toString());
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/register",
@@ -30,7 +49,10 @@ async function testRegister() {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info: encrypted }),
+      body: JSON.stringify({
+        info: encryptedMessage,
+        key: encryptedKey,
+      }),
     }
   );
 
@@ -49,12 +71,29 @@ async function testLogin() {
     password: password,
   };
 
-  const encrypted = CryptoJS.AES.encrypt(
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedMessage = CryptoJS.AES.encrypt(
     JSON.stringify(loginData),
-    SECRET.SECRET_KEY
+    randomKey
   ).toString();
 
-  console.log("Dados criptografados:", encrypted);
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey.toString());
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/login",
@@ -64,7 +103,10 @@ async function testLogin() {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info: encrypted }),
+      body: JSON.stringify({
+        info: encryptedMessage,
+        key: encryptedKey,
+      }),
     }
   );
 
@@ -131,10 +173,29 @@ async function testRegisterRecipe() {
     recipe: recipe,
   };
 
-  const encrypted = CryptoJS.AES.encrypt(
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedMessage = CryptoJS.AES.encrypt(
     JSON.stringify(registerRecipe),
-    SECRET.SECRET_KEY
+    randomKey
   ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey.toString());
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/register",
@@ -144,7 +205,10 @@ async function testRegisterRecipe() {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info: encrypted }),
+      body: JSON.stringify({
+        info: encryptedMessage,
+        key: encryptedKey,
+      }),
     }
   );
 
@@ -196,10 +260,29 @@ async function testEditRecipe() {
 
   console.log("Dados da receita atualizada:", recipe);
 
-  const encrypted = CryptoJS.AES.encrypt(
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedMessage = CryptoJS.AES.encrypt(
     JSON.stringify(recipe),
-    SECRET.SECRET_KEY
+    randomKey
   ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey.toString());
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/edit",
@@ -209,7 +292,10 @@ async function testEditRecipe() {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info: encrypted }),
+      body: JSON.stringify({
+        info: encryptedMessage,
+        key: encryptedKey,
+      }),
     }
   );
 
@@ -231,10 +317,29 @@ async function testEditUser() {
 
   console.log("Dados do usuário para editar:", user);
 
-  const encrypted = CryptoJS.AES.encrypt(
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedMessage = CryptoJS.AES.encrypt(
     JSON.stringify(user),
-    SECRET.SECRET_KEY
+    randomKey
   ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey.toString());
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/edit",
@@ -244,7 +349,10 @@ async function testEditUser() {
         "X-API-KEY": SECRET.API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info: encrypted }),
+      body: JSON.stringify({
+        info: encryptedMessage,
+        key: encryptedKey,
+      }),
     }
   );
 

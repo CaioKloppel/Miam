@@ -6,7 +6,7 @@ function userLogin(): void{
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if(isset($data['info'])) echo login($data['info']);
+    if(isset($data['info']) and isset($data['key'])) echo login($data['info'], $data['key']);
     else echo json_encode(['success' => false, 'message' => 'user login information not provided']);
 }
 
@@ -14,7 +14,7 @@ function userRegister(): void{
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if(isset($data['info'])) echo registerUser($data['info']);
+    if(isset($data['info']) and isset($data['key'])) echo registerUser($data['info'], $data['key']);
     else echo json_encode(['success' => false, 'message' => 'user register information not provided']);
 }
 
@@ -22,7 +22,7 @@ function userEdit(): void{
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if(isset($data['info'])) echo editUser($data['info']);
+    if(isset($data['info']) and isset($data['key'])) echo editUser($data['info'], $data['key']);
     else echo json_encode(['success' => false, 'message' => 'user edit information not provided']);
 }
 

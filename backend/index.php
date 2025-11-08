@@ -43,6 +43,12 @@ $router->delete('/recipe/delete', function() {
     recipeDelete();
 });
 
+//public-key request
+$router->get('/publicKey', function(){
+    header('Content-Type: text/plain');
+    echo file_get_contents(__DIR__ . '/public_key.pem');
+});
+
 
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = $_SERVER['REQUEST_METHOD'];
