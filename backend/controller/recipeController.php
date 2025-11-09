@@ -20,8 +20,9 @@ function recipeEdit(): void{
 
 function recipeDelete(): void{
     $recipeId = $_GET['recipeId'] ?? null;
+    $key = $_GET['key'] ?? null;
 
-    if($recipeId) echo deleteRecipe((int)$recipeId);
+    if($recipeId) echo deleteRecipe($recipeId, $key);
     else echo json_encode(['success' => false, 'message' => 'recipe delete information not provided']);
 }
 

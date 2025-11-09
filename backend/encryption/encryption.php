@@ -32,7 +32,6 @@ function decryptDataSymmetric($encryptedData, $SECRET_KEY): string {
 }
 
 function encryptDataSymmetric($data, $SECRET_KEY): string {
-    $SECRET_KEY = $_ENV['SECRET_KEY'];
 
     if (is_array($data) || is_object($data)) {
         $data = json_encode($data);
@@ -71,35 +70,11 @@ function decryptDataAssymetric(string $data, $privateKeyPath= __DIR__ . '/../pri
     return $decrypted;
 }
 
-
-function encryptDataAssymetric(string $data, $privateKeyPath= __DIR__ . '/../private_key.pem'){
-    if (is_array($data) || is_object($data)) {
-        $data = json_encode($data);
-    }
-    
-    $publicKey = openssl_pkey_get_private(file_get_contents($privateKeyPath));
-    
-    openssl_private_encrypt($data, $encrypted, $publicKey);
-    
-    return base64_encode($encrypted);
-}
-
-function generateRandomKey(): string{
-    $randomKey = openssl_random_pseudo_bytes(32);
-    $randomKeyHex = bin2hex($randomKey);
-
-    return $randomKeyHex;
-}
-
-function encryptResponse(array $responseData): string {
-    $randomKey = generateRandomKey();
-    
-    $encrypted = encryptDataSymmetric($responseData, $randomKey);
-    $encryptedKey = encryptDataAssymetric($randomKey);
+function encryptResponse(array $responseData, string $encryptKey): string {
+    $encrypted = encryptDataSymmetric($responseData, $encryptKey);
     
     return json_encode([
-        'data' => $encrypted,
-        'key' => $encryptedKey
+        'data' => $encrypted
     ]);
 }
 ?>

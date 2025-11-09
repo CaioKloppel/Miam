@@ -39,7 +39,7 @@ async function testRegister() {
   var crypto = new JSEncrypt();
   crypto.setPublicKey(publicKeyText);
 
-  const encryptedKey = crypto.encrypt(randomKey.toString());
+  const encryptedKey = crypto.encrypt(randomKey);
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/register",
@@ -57,7 +57,35 @@ async function testRegister() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor:", result);
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (sem criptografia):", result);
+      return;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor:", data);
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+  }
 }
 
 async function testLogin() {
@@ -93,7 +121,7 @@ async function testLogin() {
   var crypto = new JSEncrypt();
   crypto.setPublicKey(publicKeyText);
 
-  const encryptedKey = crypto.encrypt(randomKey.toString());
+  const encryptedKey = crypto.encrypt(randomKey);
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/login",
@@ -111,17 +139,71 @@ async function testLogin() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor:", result);
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (sem criptografia):", result);
+      return;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor:", data);
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+  }
 }
 
 async function testUser() {
   var email = "caio@gmail.com";
   var password = CryptoJS.MD5("senha123").toString(CryptoJS.enc.Hex);
 
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedEmail = CryptoJS.AES.encrypt(email, randomKey).toString();
+  const encryptedPassword = CryptoJS.AES.encrypt(
+    password,
+    randomKey
+  ).toString();
+  const encryptedKey = crypto.encrypt(randomKey);
+
   const response = await fetch(
     `http://localhost/PUC/TDE/backend/index.php/user/return?email=${encodeURIComponent(
-      email
-    )}&password=${encodeURIComponent(password)}`,
+      encryptedEmail
+    )}&password=${encodeURIComponent(
+      encryptedPassword
+    )}&key=${encodeURIComponent(encryptedKey)}`,
     {
       method: "GET",
       headers: {
@@ -131,7 +213,35 @@ async function testUser() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor:", result);
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (sem criptografia):", result);
+      return;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor:", data);
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+  }
 }
 
 async function testRegisterRecipe() {
@@ -169,7 +279,7 @@ async function testRegisterRecipe() {
   console.log("Dados da receita:", recipe);
 
   const registerRecipe = {
-    userId: 4,
+    userId: 16,
     recipe: recipe,
   };
 
@@ -195,7 +305,7 @@ async function testRegisterRecipe() {
   var crypto = new JSEncrypt();
   crypto.setPublicKey(publicKeyText);
 
-  const encryptedKey = crypto.encrypt(randomKey.toString());
+  const encryptedKey = crypto.encrypt(randomKey);
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/register",
@@ -213,8 +323,37 @@ async function testRegisterRecipe() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor (Register Recipe):", result);
-  return result;
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (Register Recipe):", result);
+      return result;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return null;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor (Register Recipe):", data);
+    return data;
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+    return null;
+  }
 }
 
 async function testEditRecipe() {
@@ -247,7 +386,7 @@ async function testEditRecipe() {
 
   // Criar receita atualizada (use um ID existente)
   const recipe = new Recipe(
-    3, // idRecipe existente (altere conforme necessário)
+    6, // idRecipe existente (altere conforme necessário)
     "Bolo Completo de Farinha", // nome alterado
     "dessert",
     10, // porções alteradas
@@ -282,7 +421,7 @@ async function testEditRecipe() {
   var crypto = new JSEncrypt();
   crypto.setPublicKey(publicKeyText);
 
-  const encryptedKey = crypto.encrypt(randomKey.toString());
+  const encryptedKey = crypto.encrypt(randomKey);
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/recipe/edit",
@@ -300,8 +439,37 @@ async function testEditRecipe() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor (Edit Recipe):", result);
-  return result;
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (Edit Recipe):", result);
+      return result;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return null;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor (Edit Recipe):", data);
+    return data;
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+    return null;
+  }
 }
 
 async function testEditUser() {
@@ -339,7 +507,7 @@ async function testEditUser() {
   var crypto = new JSEncrypt();
   crypto.setPublicKey(publicKeyText);
 
-  const encryptedKey = crypto.encrypt(randomKey.toString());
+  const encryptedKey = crypto.encrypt(randomKey);
 
   const response = await fetch(
     "http://localhost/PUC/TDE/backend/index.php/user/edit",
@@ -357,8 +525,37 @@ async function testEditUser() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor (Edit User):", result);
-  return result;
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (Edit User):", result);
+      return result;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return null;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor (Edit User):", data);
+    return data;
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+    return null;
+  }
 }
 
 async function testDeleteUser() {
@@ -367,10 +564,39 @@ async function testDeleteUser() {
 
   console.log("Deletando usuário:", email);
 
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedEmail = CryptoJS.AES.encrypt(email, randomKey).toString();
+  const encryptedPassword = CryptoJS.AES.encrypt(
+    password,
+    randomKey
+  ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey);
+
+  const params = new URLSearchParams({
+    email: encryptedEmail,
+    password: encryptedPassword,
+    key: encryptedKey,
+  });
+
   const response = await fetch(
-    `http://localhost/PUC/TDE/backend/index.php/user/delete?email=${encodeURIComponent(
-      email
-    )}&password=${encodeURIComponent(password)}`,
+    `http://localhost/PUC/TDE/backend/index.php/user/delete?${params.toString()}`,
     {
       method: "DELETE",
       headers: {
@@ -380,17 +606,75 @@ async function testDeleteUser() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor (Delete User):", result);
-  return result;
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (Delete User):", result);
+      return result;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return null;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor (Delete User):", data);
+    return data;
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+    return null;
+  }
 }
 
 async function testDeleteRecipe() {
-  const recipeId = 1; // Altere conforme necessário
+  const recipeId = 5; // Altere conforme necessário
 
   console.log("Deletando receita ID:", recipeId);
 
+  const randomKey = CryptoJS.lib.WordArray.random(32).toString();
+
+  const encryptedRecipeId = CryptoJS.AES.encrypt(
+    recipeId.toString(),
+    randomKey
+  ).toString();
+
+  const publicKeyResponse = await fetch(
+    "http://localhost/PUC/TDE/backend/index.php/publicKey",
+    {
+      method: "GET",
+      headers: {
+        "X-API-KEY": SECRET.API_KEY,
+      },
+    }
+  );
+
+  const publicKeyText = await publicKeyResponse.text();
+
+  var crypto = new JSEncrypt();
+  crypto.setPublicKey(publicKeyText);
+
+  const encryptedKey = crypto.encrypt(randomKey);
+
+  const params = new URLSearchParams({
+    recipeId: encryptedRecipeId,
+    key: encryptedKey,
+  });
+
   const response = await fetch(
-    `http://localhost/PUC/TDE/backend/index.php/recipe/delete?recipeId=${recipeId}`,
+    `http://localhost/PUC/TDE/backend/index.php/recipe/delete?${params.toString()}`,
     {
       method: "DELETE",
       headers: {
@@ -400,8 +684,37 @@ async function testDeleteRecipe() {
   );
 
   const result = await response.json();
-  console.log("Resposta do servidor (Delete Recipe):", result);
-  return result;
+
+  try {
+    console.log("Resultado bruto:", result);
+
+    if (result.success !== undefined) {
+      console.log("Resposta do servidor (Delete Recipe):", result);
+      return result;
+    }
+
+    if (!result.data) {
+      console.error("Erro: result.data não existe!");
+      console.log("Result completo:", result);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(result.data, randomKey);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedString) {
+      console.error("Erro: decryptedString está vazio!");
+      return null;
+    }
+
+    const data = JSON.parse(decryptedString);
+    console.log("Resposta do servidor (Delete Recipe):", data);
+    return data;
+  } catch (e) {
+    console.error("Erro ao descriptografar:", e);
+    console.log("Result bruto:", result);
+    return null;
+  }
 }
 
 window.testRegister = testRegister;

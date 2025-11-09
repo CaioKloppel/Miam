@@ -29,14 +29,16 @@ function userEdit(): void{
 function getUser(): void{
     $email = $_GET['email'] ?? null;
     $password = $_GET['password'] ?? null;
-    if($email and $password) echo returnUser($email, $password);
+    $key = $_GET['key'] ?? null;
+    if($email and $password and $key) echo returnUser($email, $password, $key);
     else echo json_encode(['success' => false, 'message' => 'information to return user not provided']);
 }
 
 function userDelete(): void{
     $email = $_GET['email'] ?? null;
     $password = $_GET['password'] ?? null;
-    if($email and $password) echo deleteUser($email, $password);
+    $key = $_GET['key'] ?? null;
+    if($email and $password and $key) echo deleteUser($email, $password, $key);
     else echo json_encode(['success' => false, 'message' => 'information to delete user not provided']);
 }
 
