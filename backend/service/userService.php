@@ -10,13 +10,13 @@ function login(string $dataMessage, string $dataKey): string{
     $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
-        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+        return encryptResponse(['success' => false, 'message' => 'failed to decrypt data']);
     }
     
     $infoUserLogin = json_decode($decrypted, true);
 
-    if (checkUser($infoUserLogin['email/nick'],$infoUserLogin['password'])) return json_encode(['success' => true, 'message' => 'valid login']);
-    else return json_encode(['success' => false, 'message' => 'incorret login information']);
+    if (checkUser($infoUserLogin['email/nick'],$infoUserLogin['password'])) return encryptResponse(['success' => true, 'message' => 'valid login']);
+    else return encryptResponse(['success' => false, 'message' => 'incorret login information']);
 }
 
 function registerUser(string $dataMessage, string $dataKey): string{
@@ -24,15 +24,15 @@ function registerUser(string $dataMessage, string $dataKey): string{
     $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
-        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+        return encryptResponse(['success' => false, 'message' => 'failed to decrypt data']);
     }
     
     $infoUserRegister = json_decode($decrypted, true);
     
     $user = User::constructFromArray($infoUserRegister);
 
-    if(setNewUser($user)) return json_encode(['success' => true, 'message' => 'user successfully registered']);
-    else return json_encode(['success' => false, 'message' => 'failed to register user']);
+    if(setNewUser($user)) return encryptResponse(['success' => true, 'message' => 'user successfully registered']);
+    else return encryptResponse(['success' => false, 'message' => 'failed to register user']);
      
 }
 
@@ -41,15 +41,15 @@ function editUser(string $dataMessage, string $dataKey): string{
     $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
-        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+        return encryptResponse(['success' => false, 'message' => 'failed to decrypt data']);
     }
 
     $infoUserEdit = json_decode($decrypted, true);
     
     $user = User::constructFromArray($infoUserEdit);
 
-    if(updateUser($user)) return json_encode(['success' => true, 'message' => 'user successfully edited']);
-    else return json_encode(['success' => false, 'message' => 'failed to edit user']);
+    if(updateUser($user)) return encryptResponse(['success' => true, 'message' => 'user successfully edited']);
+    else return encryptResponse(['success' => false, 'message' => 'failed to edit user']);
 }
 
 function returnUser(string $email, string $password): string{ 
@@ -58,14 +58,14 @@ function returnUser(string $email, string $password): string{
     if($user){
         $recipes = findRecipesByUserId($user->getIdUser());
         $user->setAllRecipes($recipes ?? []);
-        return json_encode(['sucess' => true, 'user' => $user]);
-    } else return json_encode(['success' => false, 'message' => 'failed to get user']);
+        return encryptResponse(['sucess' => true, 'user' => $user]);
+    } else return encryptResponse(['success' => false, 'message' => 'failed to get user']);
     
 }
 
 function deleteUser(string $email, string $password): string{
-    if (deleteUserByEmailAndPassword($email, $password)) return json_encode(['sucess' => true, 'message' => 'user successfully deleted']);
-    else return json_encode(['sucess' => false, 'message' => 'failed to deleted user']);
+    if (deleteUserByEmailAndPassword($email, $password)) return encryptResponse(['sucess' => true, 'message' => 'user successfully deleted']);
+    else return encryptResponse(['sucess' => false, 'message' => 'failed to deleted user']);
 }
 
 ?>

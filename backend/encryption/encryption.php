@@ -83,4 +83,23 @@ function encryptDataAssymetric(string $data, $privateKeyPath= __DIR__ . '/../pri
     
     return base64_encode($encrypted);
 }
+
+function generateRandomKey(): string{
+    $randomKey = openssl_random_pseudo_bytes(32);
+    $randomKeyHex = bin2hex($randomKey);
+
+    return $randomKeyHex;
+}
+
+function encryptResponse(array $responseData): string {
+    $randomKey = generateRandomKey();
+    
+    $encrypted = encryptDataSymmetric($responseData, $randomKey);
+    $encryptedKey = encryptDataAssymetric($randomKey);
+    
+    return json_encode([
+        'data' => $encrypted,
+        'key' => $encryptedKey
+    ]);
+}
 ?>

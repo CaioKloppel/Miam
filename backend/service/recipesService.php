@@ -9,7 +9,7 @@ function registerRecipe(string $dataMessage, string $dataKey): string{
     $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
-        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+        return encryptResponse(['success' => false, 'message' => 'failed to decrypt data']);
     }
 
     $infoRecipeRegister = json_decode($decrypted, true);
@@ -19,8 +19,8 @@ function registerRecipe(string $dataMessage, string $dataKey): string{
     $recipe = Recipe::constructFromArray($infoRecipeRegister['recipe']);
 
     if(setNewRecipe($userId, $recipe)){
-        return json_encode(['success' => true, 'message' => 'recipe successfully registered']);
-    } else return json_encode(['success' => false, 'message' => 'failed to register recipe']);
+        return encryptResponse(['success' => true, 'message' => 'recipe successfully registered']);
+    } else return encryptResponse(['success' => false, 'message' => 'failed to register recipe']);
 
 }
 
@@ -29,7 +29,7 @@ function editRecipe(string $dataMessage, string $dataKey): string{
     $decrypted = decryptDataSymmetric($dataMessage, $decryptedKey);
     
     if ($decrypted === false || $decrypted === null) {
-        return json_encode(['success' => false, 'message' => 'failed to decrypt data']);
+        return encryptResponse(['success' => false, 'message' => 'failed to decrypt data']);
     }
 
     $infoRecipeEdit = json_decode($decrypted, true);
@@ -37,13 +37,13 @@ function editRecipe(string $dataMessage, string $dataKey): string{
     $recipe = Recipe::constructFromArray($infoRecipeEdit);
 
     if(updateRecipe($recipe)){
-        return json_encode(['success' => true, 'message' => 'recipe successfully edited']);
-    } else return json_encode(['success' => false, 'message' => 'failed to edit recipe']);
+        return encryptResponse(['success' => true, 'message' => 'recipe successfully edited']);
+    } else return encryptResponse(['success' => false, 'message' => 'failed to edit recipe']);
 }
 
 function deleteRecipe(int $idRecipe): string{
-    if (deleteRecipeById($idRecipe)) return json_encode(['success' => true, 'message' => 'recipe successfully deleted']);
-    else return json_encode(['success' => false, 'message' => 'failed to delete recipe']);
+    if (deleteRecipeById($idRecipe)) return encryptResponse(['success' => true, 'message' => 'recipe successfully deleted']);
+    else return encryptResponse(['success' => false, 'message' => 'failed to delete recipe']);
 }
 
 ?>
