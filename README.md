@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🍳 RecipeCrypt
+# 🍳 Miam
 
 ### _Where Culinary Art Meets Cryptographic Security_
 
