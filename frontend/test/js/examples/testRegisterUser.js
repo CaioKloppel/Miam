@@ -1,8 +1,8 @@
 import SECRET from "/PUC/TDE/config.js";
-import { User } from "../../../models/User.js";
-import { Recipe } from "../../../models/Recipe.js";
-import { Ingredient } from "../../../models/Ingredient.js";
-import { Step } from "../../../models/Step.js";
+import { User } from "../../../Desktop/models/User.js";
+import { Recipe } from "../../../Desktop/models/Recipe.js";
+import { Ingredient } from "../../../Desktop/models/Ingredient.js";
+import { Step } from "../../../Desktop/models/Step.js";
 
 async function testRegister() {
   const user = new User(
