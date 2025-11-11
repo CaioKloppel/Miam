@@ -1,5 +1,5 @@
 let recipes = [
-    { img: "", name: "Primeira receita", desc: "Breve descrição" }
+    {name: "Primeira receita"}
 ];
 
 let editingIndex = -1;
@@ -20,9 +20,6 @@ function renderCarousel() {
             </div>
 
             <div class="recipe-name">${r.name}</div>
-            <div class="recipe-desc">${r.desc}</div>
-
-            <button class="edit-btn" onclick="event.stopPropagation(); openEditPopup(${index})">Editar</button>
         `;
 
         track.appendChild(card);
@@ -33,7 +30,6 @@ function addEmptyRecipe() {
     recipes.push({
         img: "",
         name: "Nova receita",
-        desc: "Clique para escrever"
     });
 
     renderCarousel();
@@ -96,31 +92,5 @@ function closePopup() {
     document.getElementById("popupBg").style.display = "none";
 }
 
-function saveRecipe() {
-    closePopup();
-}
-
-function openEditPopup(index) {
-    editingIndex = index;
-
-    document.getElementById("editName").value = recipes[index].name;
-    document.getElementById("editImg").value = recipes[index].img;
-    document.getElementById("editDesc").value = recipes[index].desc;
-
-    document.getElementById("editPopupBg").style.display = "flex";
-}
-
-function closeEditPopup() {
-    document.getElementById("editPopupBg").style.display = "none";
-}
-
-function saveEdit() {
-    recipes[editingIndex].name = document.getElementById("editName").value;
-    recipes[editingIndex].img = document.getElementById("editImg").value;
-    recipes[editingIndex].desc = document.getElementById("editDesc").value;
-
-    closeEditPopup();
-    renderCarousel();
-}
 
 renderCarousel();

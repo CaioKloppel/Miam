@@ -21,13 +21,12 @@
         <div class="bottom">
 
             <div class="add-btn" onclick="addEmptyRecipe()">
-                <span>+</span>
+                Adicionar receita
             </div>
 
             <div class="carousel-container">
                 <div class="arrow arrow-left" onclick="moveLeft()">❮</div>
-
-                <!-- viewport limitado: oculta o excedente e determina a "janela" visível -->
+                
                 <div class="carousel-viewport">
                     <div class="carousel-track" id="carouselTrack"></div>
                 </div>
@@ -38,24 +37,41 @@
             <div class="popup-bg" id="popupBg">
                 <div class="popup" id="mainPopup">
                     <div class="close-popup" onclick="closePopup()">✖</div>
+                    <div class="recipebody">
 
-                    <!-- editar dps!! -->
+                        <div class="recipe-title"> Lorem ipsum dolor sit amet. </div>
+
+                        <div class="recipe-top"> Lorem ipsum dolor sit amet. </div>
+
+                        <div class="recipe-mid">
+                        
+                            <div class="recipe-mid-left">
+                                <div class="recipe-image"> <img> </div>
+                                <div class="recipe-ingredients"> 
+                                    <form class="form--ingredients">
+        
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="recipe-mid-right">
+                                <div class="recipe-directions">
+                                    <div class="recipe-content">
+                                    <textarea  autofocus>
+                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, mollitia.
+                                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="recipe-notes"></div>
+
+                    </div>
                 </div>
             </div>
-            <div class="popup-bg" id="editPopupBg" style="display:none;">
-                <div class="popup-small">
-
-                    <div class="close-popup" onclick="closeEditPopup()">✖</div>
-
-                    <h2>Editar Receita</h2>
-
-                    <input type="text" id="editName" placeholder="Nome da receita">
-                    <input type="text" id="editImg" placeholder="URL da imagem">
-                    <textarea id="editDesc" placeholder="Descrição"></textarea>
-
-                    <button onclick="saveEdit()">Salvar alterações</button>
-                </div>
-            </div>
+            
         </div>
     <script src="js/index.js"></script>
     </body>
