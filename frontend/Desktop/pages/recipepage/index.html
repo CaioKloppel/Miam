@@ -1,62 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="css/index.css">
-        <meta charset="UTF-8">
-        <title>Miam</title>
-    </head>
-    <body>
-        <div class="top">
-            <div class="logo"> <img class="imglogo" src="images/newlogo.png" width="120px" height="55px "/> </div>
-            <div class="container-logout"> <button class="logout"><img  class="imglogout" src="images/power-off.png" height="30" width="30"></button> </div>
+  <head>
+    <link rel="stylesheet" href="css/index.css" />
+    <meta charset="UTF-8" />
+    <title>Miam</title>
+  </head>
+  <body>
+    <div class="top">
+      <div class="logo">
+        <img
+          class="imglogo"
+          src="images/newlogo.png"
+          width="120px"
+          height="55px "
+        />
+      </div>
+      <div class="container-logout">
+        <button class="logout">
+          <img
+            class="imglogout"
+            src="images/power-off.png"
+            height="30"
+            width="30"
+          />
+        </button>
+      </div>
+    </div>
+    <div class="mid">
+      <div class="greeting">
+        <h1>Bem-vindo de volta!</h1>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="add-btn" onclick="addEmptyRecipe()">
+        <span>+</span>
+      </div>
+
+      <div class="carousel-container">
+        <div class="arrow arrow-left" onclick="moveLeft()">❮</div>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carouselTrack"></div>
         </div>
-        <div class="mid">
 
-            <div class="greeting">
-                <h1>Bem-vindo de volta!</h1>
-            </div>
+        <div class="arrow arrow-right" onclick="moveRight()">❯</div>
+      </div>
 
+      <div class="popup-bg" id="popupBg">
+        <div class="popup" id="mainPopup">
+          <div class="close-popup" onclick="closePopup()">✖</div>
+
+          <!-- editar dps!! -->
         </div>
+      </div>
+      <div class="popup-bg" id="editPopupBg" style="display: none">
+        <div class="popup-small">
+          <div class="close-popup" onclick="closeEditPopup()">✖</div>
 
-        <div class="bottom">
+          <h2>Editar Receita</h2>
 
-            <div class="add-btn" onclick="addEmptyRecipe()">
-                <span>+</span>
-            </div>
+          <input type="text" id="editName" placeholder="Nome da receita" />
+          <input type="text" id="editImg" placeholder="URL da imagem" />
+          <textarea id="editDesc" placeholder="Descrição"></textarea>
 
-            <div class="carousel-container">
-                <div class="arrow arrow-left" onclick="moveLeft()">❮</div>
-
-                <!-- viewport limitado: oculta o excedente e determina a "janela" visível -->
-                <div class="carousel-viewport">
-                    <div class="carousel-track" id="carouselTrack"></div>
-                </div>
-
-                <div class="arrow arrow-right" onclick="moveRight()">❯</div>
-            </div>
-
-            <div class="popup-bg" id="popupBg">
-                <div class="popup" id="mainPopup">
-                    <div class="close-popup" onclick="closePopup()">✖</div>
-
-                    <!-- editar dps!! -->
-                </div>
-            </div>
-            <div class="popup-bg" id="editPopupBg" style="display:none;">
-                <div class="popup-small">
-
-                    <div class="close-popup" onclick="closeEditPopup()">✖</div>
-
-                    <h2>Editar Receita</h2>
-
-                    <input type="text" id="editName" placeholder="Nome da receita">
-                    <input type="text" id="editImg" placeholder="URL da imagem">
-                    <textarea id="editDesc" placeholder="Descrição"></textarea>
-
-                    <button onclick="saveEdit()">Salvar alterações</button>
-                </div>
-            </div>
+          <button onclick="saveEdit()">Salvar alterações</button>
         </div>
+      </div>
+    </div>
     <script src="js/index.js"></script>
-    </body>
+  </body>
 </html>

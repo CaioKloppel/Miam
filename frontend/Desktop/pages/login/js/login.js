@@ -33,19 +33,15 @@ loginButton.addEventListener("click", async (e) => {
     return;
   }
 
-  if (!passwordRegex.test(password.value)) {
-    password.setCustomValidity(
-      "A senha deve conter no mínimo 6 caracteres, 1 letra maiúscula, 1 minúscula e 1 número e um carectere especial (@, $, !, %, *, ?, &, #)"
-    );
-    password.reportValidity();
-    return;
-  }
-
   const formData = new FormData(loginForm);
+
+  const encryptPassword = CryptoJS.MD5(formData.get("password")).toString(
+    CryptoJS.enc.Hex
+  );
 
   const loginData = {
     "email/nick": formData.get("email/nick"),
-    password: formData.get("password"),
+    password: encryptPassword,
   };
 
   const randomKey = CryptoJS.lib.WordArray.random(32).toString();
@@ -95,5 +91,15 @@ loginButton.addEventListener("click", async (e) => {
 
   const data = JSON.parse(decrypted);
 
-  console.log(data);
+  if (data.success) {
+    localStorage.setItem("userPassword", loginData.password);
+    localStorage.setItem("userEmailOrNick", loginData["email/nick"]);
+
+    setTimeout(() => {
+      window.location.href = "../recipepage/index.html";
+    }, 1000);
+  } else {
+    alert(data.message);
+    location.reload();
+  }
 });

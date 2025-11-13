@@ -78,7 +78,7 @@ registerButton.addEventListener("click", async (e) => {
     formData.get("nick"),
     formData.get("email"),
     formData.get("birthDate"),
-    formData.get("password"),
+    CryptoJS.MD5(formData.get("password")).toString(CryptoJS.enc.Hex),
     []
   );
 
@@ -128,5 +128,16 @@ registerButton.addEventListener("click", async (e) => {
   );
 
   const data = JSON.parse(decrypted);
-  console.log("Resposta do servidor:", data);
+
+  if (data.success) {
+    localStorage.setItem("userPassword", newUser.password);
+    localStorage.setItem("userEmailOrNick", newUser.email);
+
+    setTimeout(() => {
+      window.location.href = "../recipepage/index.html";
+    }, 1000);
+  } else {
+    alert(`${data.message}: email ou apelido já utilizado`);
+    location.reload();
+  }
 });
