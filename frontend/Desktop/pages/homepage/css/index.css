@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Amatic+SC:wght@400;700&family=Bebas+Neue&family=Indie+Flower&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Titan+One&display=swap");
+
 .home-page {
   height: 100vh;
   width: 100%;
@@ -118,7 +120,7 @@ body {
 }
 
 .title {
-  font-family: Bebas Neue;
+  font-family: "Bebas Neue";
   font-size: 70px;
   font-style: normal;
   text-align: start;
@@ -140,10 +142,28 @@ body {
 }
 
 .illustration {
-  width: 390px;
-  height: 390px;
+  width: 73%;
+  max-width: 500px;
+  height: auto;
   margin-bottom: 20px;
   transform: rotate(9deg);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .illustration {
+    width: 60%;
+    max-width: 350px;
+    transform: rotate(5deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .illustration {
+    width: 80%;
+    max-width: 280px;
+    transform: none;
+  }
 }
 
 .bottom {
@@ -306,4 +326,154 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.abt-body {
+  width: 100%;
+  height: 90%;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+  z-index: 1;
+}
+
+.abt-title {
+  font-size: 54px;
+  font-family: "Bebas Neue", sans-serif;
+  color: #fff6e7;
+  text-shadow: 2px 3px 8px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.abt-desc {
+  width: 65%;
+  height: 70%;
+  background-color: #fff6e7;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.desc-left {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.desc-right {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.person-l-desc,
+.person-r-desc {
+  font-family: "Open Sans", sans-serif;
+  color: #673d27;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.person-l,
+.person-r {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 15px rgba(59, 26, 9, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.person-l {
+  margin-top: 20px;
+}
+
+.person-r {
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.person-l img,
+.person-r img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.desc-mid {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.desc-mid p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #673d27;
+  padding: 0 15px;
+  text-align: center;
+}
+
+.desc-left,
+.desc-right {
+  position: relative;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  text-align: center;
+}
+
+.contact-title {
+  font-family: "Bebas Neue", sans-serif;
+  color: #673d27;
+  font-size: 40px;
+  margin-bottom: 25px;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: #c86338;
+  text-decoration: none;
+  border: 2px solid #c86338;
+  border-radius: 50px;
+  padding: 10px 25px;
+  transition: all 0.3s ease;
+}
+
+.github-link i {
+  font-size: 26px;
+}
+
+.github-link:hover {
+  background-color: #c86338;
+  color: #fff6e7;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(200, 99, 56, 0.4);
 }
