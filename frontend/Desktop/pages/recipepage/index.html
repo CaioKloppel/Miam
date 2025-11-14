@@ -1,113 +1,194 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="css/index.css">
-        <meta charset="UTF-8">
-        <title>Miam</title>
-    </head>
-    <body>
-        <div class="top">
-            <div class="logo"> <img class="imglogo" src="images/newlogo.png" width="120px" height="55px "/> </div>
-            <div class="container-logout"> <button class="logout"><img  class="imglogout" src="images/power-off.png" height="30" width="30"></button> </div>
-        </div>
-        <div class="mid">
+  <head>
+    <link rel="stylesheet" href="css/index.css" />
+    <meta charset="UTF-8" />
+    <script type="module" src="js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <title>Miam</title>
+  </head>
+  <body>
+    <div class="top">
+      <div class="logo">
+        <img
+          class="imglogo"
+          src="images/newlogo.png"
+          width="120px"
+          height="55px "
+        />
+      </div>
+      <div class="container-logout">
+        <button class="logout" onclick="logout()">
+          <img
+            class="imglogout"
+            src="images/power-off.png"
+            height="30"
+            width="30"
+          />
+        </button>
+      </div>
+    </div>
+    <div class="mid">
+      <div class="greeting">
+        <h1>Bem-vindo de volta!</h1>
+      </div>
+      <div class="button-container">
+        <button class="add-btn" onclick="addEmptyRecipe()">
+          Adicionar receita
+        </button>
+      </div>
+    </div>
 
-            <div class="greeting">
-                <h1>Bem-vindo de volta!</h1>
+    <div class="bottom">
+      <div class="carousel-container">
+        <div class="arrow arrow-left" onclick="moveLeft()">❮</div>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+
+        <div class="arrow arrow-right" onclick="moveRight()">❯</div>
+      </div>
+
+      <div class="popup-bg" id="popupBg">
+        <div class="popup" id="mainPopup">
+          <div class="close-popup">
+            <button class="close-button" onclick="closePopup()">
+              <img src="images/reject.png" width="30px" height="30px" />
+            </button>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-title">
+              <input
+                type="text"
+                name="recipetitle"
+                placeholder="Nome da Receita"
+              />
             </div>
 
-        </div>
-
-        <div class="bottom">
-
-            <div class="button-container"> 
-                <button class="add-btn" onclick="addEmptyRecipe()">Adicionar receita</button>
+            <div class="recipe-top">
+              <select class="category" class="unit-input" required>
+                <option value="">Selecione a categoria</option>
+                <option value="main course">Prato Principal</option>
+                <option value="dessert">Sobremesa</option>
+                <option value="appetizer/snack">Aperitivo/Lanche</option>
+                <option value="soup">Sopa</option>
+                <option value="salad">Salada</option>
+                <option value="drink">Bebida</option>
+                <option value="pasta">Massa</option>
+              </select>
+              <div class="rating" id="rating">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+                <input type="hidden" id="ratingValue" value="0" />
+              </div>
+              <div class="favorite">
+                <button
+                  class="favorite-btn"
+                  id="favoriteBtn"
+                  aria-label="Favoritar receita"
+                ></button>
+                <input type="hidden" id="favoriteValue" value="false" />
+              </div>
             </div>
 
-            <div class="carousel-container">
-                <div class="arrow arrow-left" onclick="moveLeft()">❮</div>
-                
-                <div class="carousel-viewport">
-                    <div class="carousel-track" id="carouselTrack"></div>
+            <div class="recipe-mid">
+              <div class="recipe-mid-left">
+                <div class="recipe-image">
+                  <div class="img-icon">
+                    <img
+                      src="images/cloud-computing.png"
+                      height="50px"
+                      width="50px"
+                    />
+                  </div>
+                  <header>Arraste e solte para enviar o arquivo</header>
+                  <span>OU</span>
+                  <button id="browseBtn" type="button">
+                    Procure em arquivos
+                  </button>
+                  <input type="file" id="fileInput" accept="image/*" hidden />
                 </div>
 
-                <div class="arrow arrow-right" onclick="moveRight()">❯</div>
-            </div>
+                <div class="recipe-ingredients">
+                  <div class="ingredients-title">Ingredientes</div>
 
-            <div class="popup-bg" id="popupBg">
-                <div class="popup" id="mainPopup">
-                    <div class="close-popup">
-                        <button class="close-button" onclick="closePopup()"><img src="images/reject.png" width="30px" height="30px"></button>
+                  <form
+                    class="form--ingredients"
+                    id="ingredientsForm"
+                    onsubmit="return false;"
+                  >
+                    <div id="ingredientList">
+                      <div class="ingredient-row">
+                        <input type="checkbox" class="ingredient-check" />
+                        <input
+                          type="text"
+                          name="ingredient[]"
+                          placeholder="Ingrediente"
+                          class="ingredient-input"
+                        />
+                        <input
+                          type="number"
+                          name="quantity[]"
+                          placeholder="Qntd"
+                          class="quantity-input"
+                          min="0"
+                          step="any"
+                        />
+                        <select name="unit[]" class="unit-input" required>
+                          <option value="">Tipo de quantidade</option>
+                          <option value="tablespoon">Colher de sopa</option>
+                          <option value="teaspoon">Colher de chá</option>
+                          <option value="cups">Xícaras</option>
+                          <option value="ml">Mililitros</option>
+                          <option value="l">Litros</option>
+                          <option value="g">Gramas</option>
+                          <option value="kg">Quilogramas</option>
+                          <option value="unit">Unidade</option>
+                        </select>
+                        <button type="button" class="remove-ingredient">
+                          ✕
+                        </button>
+                      </div>
                     </div>
-                    <div class="recipe-body">
-
-                        <div class="recipe-title"><input type="text" name="recipetitle" placeholder="Nome da Receita"/></div>
-
-                        <div class="recipe-top"> 
-                            <input type="text" class="category" placeholder="Categoria"/>
-                                <div class="rating" id="rating">
-                                    <span class="star" data-value="1">★</span>
-                                    <span class="star" data-value="2">★</span>
-                                    <span class="star" data-value="3">★</span>
-                                    <span class="star" data-value="4">★</span>
-                                    <span class="star" data-value="5">★</span>
-                                    <input type="hidden" id="ratingValue" value="0">
-                                </div>
-                            <div class="favorite"> 
-                                <button class="favorite-btn" id="favoriteBtn" aria-label="Favoritar receita"></button>
-                                <input type="hidden" id="favoriteValue" value="false"> 
-                            </div>
-                        </div>
-
-                        <div class="recipe-mid">
-                        
-                            <div class="recipe-mid-left">
-                                <div class="recipe-image"> 
-                                    <div class="img-icon"><img src="images/cloud-computing.png" height="50px" width="50px"></div>
-                                    <header>Arraste e solte para enviar o arquivo</header>
-                                    <span>OU</span>
-                                    <button id="browseBtn" type="button">Procure em arquivos</button>
-                                    <input type="file" id="fileInput" accept="image/*" hidden>
-                                </div>
-                            
-                                <div class="recipe-ingredients">
-                                    <div class="ingredients-title">Ingredientes</div>
-
-                                    <form class="form--ingredients" id="ingredientsForm" onsubmit="return false;">
-                                        <div id="ingredientList">
-                                            <div class="ingredient-row">
-                                                <input type="checkbox" class="ingredient-check">
-                                                <input type="text" name="ingredient[]" placeholder="Ingrediente" class="ingredient-input">
-                                                <input type="number" name="quantity[]" placeholder="Qntd" class="quantity-input" min="0" step="any">
-                                                <input type="text" name="unit[]" placeholder="Unidade" class="unit-input">
-                                                <!-- <button type="button" class="remove-ingredient">✕</button>-->
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <div class="ingredients-actions">
-                                        <button type="button" id="addIngredientBtn" class="add-ingredient">+ Adicionar ingrediente</button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="recipe-directions">
-                                <div class="directions-title">Passo a passo</div>
-                                <div id="directionsContainer">
-                                    <div class="direction-step">
-                                        <input type="text" name="step[]" placeholder="1. Descreva o primeiro passo..." />
-                                    </div>
-                                </div>
-                                <button id="addStepBtn">+ Adicionar passo</button>
-                            </div>
-
-                        </div>
-                    </div>
+                  </form>
                 </div>
+              </div>
+
+              <div class="recipe-directions">
+                <div class="directions-title">Passo a passo</div>
+                <div id="directionsContainer">
+                  <div class="direction-step">
+                    <input
+                      type="text"
+                      name="step[]"
+                      placeholder="1. Descreva o primeiro passo..."
+                    />
+                    <button type="button" class="remove-step">✕</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            
+            <div class="save-recipe-container">
+              <button
+                type="button"
+                id="addIngredientBtn"
+                class="add-ingredient"
+              >
+                + Adicionar ingrediente
+              </button>
+              <button id="saveRecipeBtn" class="save-recipe-btn">
+                Salvar Receita
+              </button>
+              <button id="addStepBtn">+ Adicionar passo</button>
+            </div>
+          </div>
         </div>
-    <script src="js/index.js"></script>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>

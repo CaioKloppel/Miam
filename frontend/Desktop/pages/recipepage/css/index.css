@@ -1,517 +1,539 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins");
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Titan+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Titan+One&display=swap");
 
 body {
-    height: 100vh;
-    width: 100%;
-    background-color: #fff6e7;
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: #fff6e7;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 .top {
-    width: 100%;
-    height: 8%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
+  width: 100%;
+  height: 8%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
 .logo {
-    margin-top: -8px;
-    margin-left: 20px;
-
+  margin-top: -8px;
+  margin-left: 20px;
 }
 
 .imglogo {
-    height: 100%;
-    width: 13%;
+  height: 100%;
+  width: 13%;
 }
 
 .imglogout {
-    height: 100%;
+  height: 100%;
 }
 
 .logout {
-    background: none;
-    border: none;
-    cursor: pointer;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .container-logout {
-    margin-right: 30px;
-    margin-top: -5px;
+  margin-right: 30px;
+  margin-top: -5px;
 }
 
 .mid {
-    height: 75%;
-    background-image: url("../images/cooking.gif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 0 0;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    display: block;
-    border-radius: 0 0 40px 40px;
-    position: relative;
-    z-index: 1;
+  height: 75%;
+  background-image: url("../images/cooking.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 40px 40px;
+  position: relative;
+  z-index: 1;
+  gap: 20px;
 }
 
 .bottom {
-    position: relative;
-    z-index: 10;
-    padding-top: 20px;
+  position: relative;
+  z-index: 10;
+  padding-top: 20px;
 }
 
-h1{
-    font-size: 45px;
-    line-height: 45px;
-    margin: 0;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
+h1 {
+  font-size: 45px;
+  line-height: 45px;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
 
 .greeting {
-    width: 100%;
-    height: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
 .carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: -120px;
-    gap: 16px;
-    z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: -80px;
+  gap: 16px;
+  z-index: 5;
 }
 
 .carousel-viewport {
-    width: 55%;
-    max-width: 900px;
-    overflow: hidden;   
-    border-radius: 15px;  
-    box-sizing: border-box;
-    
+  width: 55%;
+  max-width: 900px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-sizing: border-box;
 }
 
 .carousel-track {
-    display: flex;
-    gap: 16px;
-    transition: transform 0.45s cubic-bezier(.22,.9,.34,1);
-    will-change: transform;
-    padding: 10px;        
-    width: max-content;  
+  display: flex;
+  gap: 16px;
+  transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.34, 1);
+  will-change: transform;
+  padding: 10px;
+  width: max-content;
 }
 
 .recipe-card {
-    flex: 0 0 200px;  
-    min-width: 150px;
-    max-width: 150px;
-    min-height: 160px;
-    max-height: 160px;
-    background: #fff7ee;
-    border-radius: 20px;
-    padding: 12px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s;
+  flex: 0 0 200px;
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 160px;
+  max-height: 160px;
+  background: #fff7ee;
+  border-radius: 20px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .recipe-card:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .recipe-img {
-    width: 100%;
-    height: 110px;
-    background: #ecd7c2;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #7a5d4b;
+  width: 100%;
+  height: 110px;
+  background: #ecd7c2;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #7a5d4b;
 }
 
 .recipe-name {
-    margin-top: 10px;
-    font-family: "Poppins", sans-serif;
-    font-weight: bold;
-    color: #8a4d2e;
+  margin-top: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: #8a4d2e;
 }
 
 .button-container {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 24%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-button.add-btn {
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-}
-
-button.add-btn {
-    position: relative;
-    border: none;
-    font-size: 18px;
-    transition: color 0.5s, transform 0.2s, background-color 0.2s;
-    outline: none;
-    border-radius: 3px;
-    margin: 0 10px;
-    padding: 16px 26px;
-    border: 3px solid;
-    
-    &:active {
-        transform: translateY(3px);
-    }
-    &::after, &::before {
-        border-radius: 3px;
-    }
+.button-container .add-btn {
+  pointer-events: auto;
 }
 
 .add-btn {
-    top: 5;    
-    left: -10%;    
-    z-index: 1000; 
-    background-color: transparent;
-    color: #371e13;
-    border: none;
-    overflow: hidden;
-    box-shadow: none;
-    
-    &:hover {
-        color: #bb5326;
-    }
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 3px solid (rgb(0, 0, 82), 10%);
-        transition: opacity 0.3s, border 0.3s;
-    }
-    &:hover::before {
-        opacity: 0;
-    }
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 18px 48px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #a8644b 0%, #bb5326 100%);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(187, 83, 38, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1000;
+}
 
-    &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 200px;
-        height: 200px;
-        background-color: lighten(rgb(0, 0, 82), 10%);
-        border-color: transparent;
-        border-radius: 50%;
-        transform: translate(-10px, -70px) scale(0.1);
-        opacity: 0;
-        z-index: -1;
-        transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
-    }
+.add-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff8559 0%, #d96840 100%);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
 
-    &:hover::after {
-        opacity: 1;
-        transform-origin: 100px 100px;
-        transform: scale(1) translate(-10px, -70px);
-    }
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(187, 83, 38, 0.4);
+}
+
+.add-btn:hover::before {
+  left: 0;
+}
+
+.add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(187, 83, 38, 0.3);
 }
 
 .arrow {
-    margin-top: 60px;
-    font-size: 50px;
-    cursor: pointer;
-    color: #bb5326;
-    user-select: none;
-    border-radius: 50%;
-    z-index: 20;
+  margin-top: 60px;
+  font-size: 50px;
+  cursor: pointer;
+  color: #bb5326;
+  user-select: none;
+  border-radius: 50%;
+  z-index: 20;
 }
 
-.arrow:hover { transform: scale(1.03); }
+.arrow:hover {
+  transform: scale(1.03);
+}
 
 @media (max-width: 700px) {
-  .carousel-viewport { width: 92%; }
-  .recipe-card { flex: 0 0 150px; min-width:150px; max-width:150px; }
-  .arrow { font-size: 30px; padding: 6px; }
+  .carousel-viewport {
+    width: 92%;
+  }
+  .recipe-card {
+    flex: 0 0 150px;
+    min-width: 150px;
+    max-width: 150px;
+  }
+  .arrow {
+    font-size: 30px;
+    padding: 6px;
+  }
 }
 
-
-
-
 .popup-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 .popup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 85%;
-    height: 95%;
-    background: #f8f5ee;
-    border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: 95%;
+  background: #f8f5ee;
+  border-radius: 8px;
 }
 
-
 .close-popup {
-    display: flex;
-    flex-direction: row-reverse;
-    align-content: center;
-    width: 100%;
-    height: 5%;
-    z-index: 999;
+  display: flex;
+  flex-direction: row-reverse;
+  align-content: center;
+  width: 100%;
+  height: 5%;
+  z-index: 999;
 }
 
 .close-button {
-    padding: 12px;
-    border-radius: 10px;
-    background-color: transparent;
-    color: #371e13;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    z-index: 1000;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: transparent;
+  color: #371e13;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1000;
 }
 
 .recipe-top {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    height: 5%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 5%;
 }
 
 .recipe-title {
-    width: 100%;
-    height: 10%;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 10%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .recipe-title input::placeholder {
-    color: #96654c; 
-    opacity: 1;   
+  color: #96654c;
+  opacity: 1;
 }
 
 .recipe-title input {
-    background-color: transparent;
-    border: none;
-    color: #96654c;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    width: 50%;
-    font-size: 35px;
-    padding: 5px 10px;
-    height: auto;
-    text-align: center;
-    font-family: "Titan One", sans-serif;
-    font-style: normal;
+  background-color: transparent;
+  border: none;
+  color: #96654c;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  width: 50%;
+  font-size: 35px;
+  padding: 5px 10px;
+  height: auto;
+  text-align: center;
+  font-family: "Titan One", sans-serif;
+  font-style: normal;
 }
 
 .recipe-title input:focus {
-    outline: none;
-    border: none;
-    background-color: transparent;
+  outline: none;
+  border: none;
+  background-color: transparent;
 }
 
 .recipe-top input {
-    width: 20%;
-    height: auto;
-    background-color: transparent;
-    border: none;
-    color: #371e13;
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    padding: 5px 10px;
-    text-align: center;
+  width: 20%;
+  height: auto;
+  background-color: transparent;
+  border: none;
+  color: #371e13;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  padding: 5px 10px;
+  text-align: center;
 }
 
 .recipe-top input:focus {
-    outline: none;
-    border: none;
-    background-color: transparent;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.recipe-top select.category {
+  width: 20%;
+  height: auto;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fffaf5;
+  color: #371e13;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  outline: none;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.recipe-top select.category:focus {
+  background-color: #e8e5de;
 }
 
 .rating {
-    width: 20%;
-    height: auto;
-    text-align: center;
-    font-size: 16px;
-    padding: 5px 10px;
-    font-family: "Poppins", sans-serif;
+  width: 20%;
+  height: auto;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .favorite {
-    width: 20%;
-    height: auto;
-    text-align: center;
-    font-size: 16px;
-    padding: 5px 10px;
-    font-family: "Poppins", sans-serif;
+  width: 20%;
+  height: auto;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 10px;
+  font-family: "Poppins", sans-serif;
 }
 
-.recipe-body{
-    height: 80%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+.recipe-body {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .recipe-mid {
-    display: flex;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .recipe-mid-left {
-    height: 100%;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10px;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
 }
 
 .recipe-image {
-    border: 2px dashed #371e13;
-    height: 50%;
-    width: 50%;
-    min-height: 200px;
-    max-height: 250px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-family: "Poppins", sans-serif;
-    padding: 10px;
+  border: 2px dashed #371e13;
+  height: 50%;
+  width: 50%;
+  min-height: 200px;
+  max-height: 250px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  padding: 10px;
 }
 
 .recipe-image.active {
-    border: 2px solid #fff;
+  border: 2px solid #fff;
 }
 
 .recipe-image .img-icon {
-    height: auto;
-    width: auto;
+  height: auto;
+  width: auto;
 }
 
 .recipe-image header {
-    color: #371e13;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: center;
+  color: #371e13;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
 }
 
 .recipe-image span {
-    font-size: 12px;
-    font-weight: 500;
-    color: #bb5326;
-    margin: 5px 0 10px 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #bb5326;
+  margin: 5px 0 10px 0;
 }
 
 .recipe-image button {
-    padding: 8px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    border: none;
-    outline: none;
-    background: #bb5326;
-    color: #e5ddd2;
-    border-radius: 3px;
-    cursor: pointer;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: #bb5326;
+  color: #e5ddd2;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .recipe-image button:hover {
-    background: #a33f14;
-    color: #e5ddd2;
+  background: #a33f14;
+  color: #e5ddd2;
+}
+
+.change-image-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  outline: none;
+  background: #bb5326;
+  color: #e5ddd2;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.change-image-btn:hover {
+  background: #a33f14;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .ingredients-title {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #96654c;
-    letter-spacing: 2px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #96654c;
+  letter-spacing: 2px;
 }
 
 .recipe-ingredients {
-    position: relative;
-    width: 80%;
-    margin-top: 15px;
-    margin-bottom: -25px;
-    background-color: transparent;
-    border-radius: 8px;
-    border: none;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 12px 12px 70px 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  position: relative;
+  width: 80%;
+  margin-top: 15px;
+  margin-bottom: -25px;
+  background-color: transparent;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 12px 12px 70px 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #ingredientList {
-    position: absolute;
-    top: 45px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-right: 8px;
-    box-sizing: border-box;
-    padding-bottom: 60px;
+  position: absolute;
+  top: 45px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  padding-bottom: 60px;
 }
 
 #ingredientList::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 #ingredientList::-webkit-scrollbar-thumb {
-    background-color: #c86338;
-    border-radius: 10px;
+  background-color: #c86338;
+  border-radius: 10px;
 }
 #ingredientList::-webkit-scrollbar-track {
-    background-color: #f3e9e4;
-    border-radius: 10px;
+  background-color: #f3e9e4;
+  border-radius: 10px;
 }
 
 .form--ingredients {
@@ -522,302 +544,301 @@ button.add-btn {
 }
 
 .ingredient-row {
-    display: grid;
-    grid-template-columns: 0.1fr 1.3fr 0.3fr 0.6fr;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 0.1fr 1.3fr 0.3fr 0.6fr 0.1fr;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .ingredient-check {
-    width: 18px;
-    height: 18px;
-    accent-color: #c86338;
-    cursor: pointer;
-    justify-self: center;
+  width: 18px;
+  height: 18px;
+  accent-color: #c86338;
+  cursor: pointer;
+  justify-self: center;
 }
 
 .ingredient-input,
 .quantity-input,
 .unit-input {
-    width: 100%;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #fffaf5;
-    color: #371e13;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
-    outline: none;
-    transition: background 0.2s ease;
-    margin: 0;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fffaf5;
+  color: #371e13;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  outline: none;
+  transition: background 0.2s ease;
+  margin: 0;
 }
 
 .ingredient-input:focus,
 .quantity-input:focus,
 .unit-input:focus {
-    background-color: #e8e5de;
+  background-color: #e8e5de;
 }
 
 .remove-ingredient {
-    background: transparent;
-    border: none;
-    color: #a33;
-    font-size: 16px;
-    cursor: pointer;
-    align-self: center;
-    justify-self: center;
+  background: transparent;
+  border: none;
+  color: #a33;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
 }
 
 .remove-ingredient:hover {
-    color: #d00;
-    transform: scale(1.1);
+  color: #d00;
+  transform: scale(1.1);
 }
 
 .ingredients-actions {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 12px;
-    height: 46px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    background: transparent;
-    box-sizing: border-box;
-    padding: 6px 12px;
-    z-index: 5;
-}
-
-.ingredients-actions .add-ingredient {
-    pointer-events: auto; 
+  display: none;
 }
 
 .add-ingredient {
-    position: absolute;
-    left: 50%;
-    bottom: 10px;
-    transform: translateX(-50%);
-    height: 46px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #c86338;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    z-index: 5;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c86338;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.add-ingredient:hover { background-color: #bb5326; }
+.add-ingredient:hover {
+  background-color: #bb5326;
+  transform: translateY(-2px);
+}
 
-
-
-/* direito */
+.add-ingredient:active {
+  transform: translateY(0);
+}
 
 .directions-title {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #96654c;
-    letter-spacing: 2px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #96654c;
+  letter-spacing: 2px;
 }
 
 .recipe-directions {
-    position: relative;
-    width: 50%;
-    margin-top: 33px;
-    background-color: transparent;
-    border-radius: 8px;
-    border: none;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 50px 12px 70px 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 25px;
+  position: relative;
+  width: 50%;
+  margin-top: 33px;
+  background-color: transparent;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 50px 12px 70px 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 25px;
 }
 
 #directionsContainer {
-    position: absolute;
-    top: 45px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-right: 8px;
-    box-sizing: border-box;
-    padding-bottom: 60px;
+  position: absolute;
+  top: 45px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  padding-bottom: 60px;
+}
+
+.direction-step {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .direction-step input {
-    width: 100%;
-    padding: 10px 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #fffaf5;
-    color: #371e13;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
-    outline: none;
-    transition: background 0.2s ease;
-    margin: 2px;
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #fffaf5;
+  color: #371e13;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  outline: none;
+  transition: background 0.2s ease;
+  margin: 2px;
 }
 
 .direction-step input:focus {
   background-color: #e8e5de;
 }
 
+.remove-step {
+  background: transparent;
+  border: none;
+  color: #a33;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.remove-step:hover {
+  color: #d00;
+  transform: scale(1.1);
+}
+
 #directionsContainer::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 #directionsContainer::-webkit-scrollbar-thumb {
-    background-color: #bb5326;
-    border-radius: 10px;
+  background-color: #bb5326;
+  border-radius: 10px;
 }
 #directionsContainer::-webkit-scrollbar-track {
-    background-color: #f3e9e4;
-    border-radius: 10px;
+  background-color: #f3e9e4;
+  border-radius: 10px;
 }
 
 #addStepBtn {
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
-    height: 46px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #c86338;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    z-index: 5;
-}
-
-#addStepBtn button,
-#addStepBtn {
-    pointer-events: auto;
-    background-color: #c86338;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c86338;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 #addStepBtn:hover {
-    background-color: #bb5326;
+  background-color: #bb5326;
+  transform: translateY(-2px);
+}
+
+#addStepBtn:active {
+  transform: translateY(0);
 }
 
 .popup {
-    position: relative;
-    background: #f8f5ee;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+  background: #f8f5ee;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .popup::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent 26px,
-        rgba(55, 30, 19, 0.15) 27px
-    );
-    z-index: 0;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 26px,
+    rgba(55, 30, 19, 0.15) 27px
+  );
+  z-index: 0;
 }
 
 .popup::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 60px;
-    width: 2px;
-    background-color: rgba(187, 83, 38, 0.4);
-    z-index: 0;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 60px;
+  width: 2px;
+  background-color: rgba(187, 83, 38, 0.4);
+  z-index: 0;
 }
 
 .recipe-body {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    width: 100%;
-    border-top: 2px solid rgba(55, 30, 19, 0.15);
-    border-bottom: 2px solid rgba(55, 30, 19, 0.15);
-    padding-top: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  width: 100%;
+  border-top: 2px solid rgba(55, 30, 19, 0.15);
+  border-bottom: 2px solid rgba(55, 30, 19, 0.15);
+  padding-top: 10px;
 }
 
 .recipe-mid {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .recipe-mid::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%; 
-    width: 2px;
-    background-color: rgba(55, 30, 19, 0.12);
-    transform: translateX(-50%);
-    z-index: 0;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: rgba(55, 30, 19, 0.12);
+  transform: translateX(-50%);
+  z-index: 0;
 }
 
 .recipe-mid-left,
 .recipe-directions {
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 .recipe-title {
-    position: relative;
+  position: relative;
 }
 
 .recipe-title::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 25%;
-    right: 25%;
-    height: 1.5px;
-    background-color: rgba(187, 83, 38, 0.25);
-    border-radius: 1px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  height: 1.5px;
+  background-color: rgba(187, 83, 38, 0.25);
+  border-radius: 1px;
 }
 
 .rating {
@@ -829,51 +850,79 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .star {
-    font-size: 28px;
-    color: #d4b2a7;
-    transition: transform 0.15s ease, color 0.15s ease;
-    user-select: none;
+  font-size: 28px;
+  color: #d4b2a7;
+  transition: transform 0.15s ease, color 0.15s ease;
+  user-select: none;
 }
 
 .star.filled {
-    color: #c86338;
+  color: #c86338;
 }
 
 .star.half {
-    background: linear-gradient(90deg, #c86338 50%, #d4b2a7 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, #c86338 50%, #d4b2a7 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .star:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
-
 
 .favorite-btn {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    cursor: pointer;
-    transition: transform 0.12s ease;
-
-    background-image: url("data:image/svg+xml;utf8,\
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
-        <path d='M12.1 8.64l-.1.1-.11-.11C10.14 6.7 7.17 6.7 5.88 8.97c-1.2 1.95-.54 4.6 1.84 6.95L12 21.35l4.28-5.43c2.38-2.35 3.04-4.99 1.84-6.95C16.83 6.7 13.86 6.7 12.1 8.64z' fill='none' stroke='%23371e13' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/>\
-        </svg>");
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M12.1 8.64l-.1.1-.11-.11C10.14 6.7 7.17 6.7 5.88 8.97c-1.2 1.95-.54 4.6 1.84 6.95L12 21.35l4.28-5.43c2.38-2.35 3.04-4.99 1.84-6.95C16.83 6.7 13.86 6.7 12.1 8.64z' fill='none' stroke='%23371e13' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
 }
 
-.favorite-btn:hover { transform: scale(1.08); }
+.favorite-btn:hover {
+  transform: scale(1.08);
+}
 
 .favorite-btn.active {
-  background-image: url("data:image/svg+xml;utf8,\
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
-      <path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6.01 4.01 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 17.99 4 20 6.01 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23e63946'/>\
-    </svg>");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6.01 4.01 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 17.99 4 20 6.01 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23e63946'/%3e%3c/svg%3e");
 }
 
+.save-recipe-container {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
+}
 
+.save-recipe-btn {
+  background-color: #c86338;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.save-recipe-btn:hover {
+  background-color: #bb5326;
+  transform: translateY(-2px);
+}
+
+.save-recipe-btn:active {
+  transform: translateY(0);
+}

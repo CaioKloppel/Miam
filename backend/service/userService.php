@@ -62,7 +62,7 @@ function returnUser(string $encryptEmail, string $encryptPassword, string $dataK
     if($user){
         $recipes = findRecipesByUserId($user->getIdUser());
         $user->setAllRecipes($recipes ?? []);
-        return encryptResponse(['sucess' => true, 'user' => $user], $decryptedKey);
+        return encryptResponse(['success' => true, 'user' => $user], $decryptedKey);
     } else return encryptResponse(['success' => false, 'message' => 'failed to get user'], $decryptedKey);
     
 }
