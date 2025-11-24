@@ -65,7 +65,7 @@ const user = await (async function () {
             ingredient.name,
             ingredient.quantity,
             ingredient.typeQuantity,
-            ingredient.available
+            ingredient.avaible
           )
         );
       });
@@ -756,7 +756,7 @@ function openPopup(index) {
         newRow.classList.add("ingredient-row");
         newRow.innerHTML = `
           <input type="checkbox" class="ingredient-check" ${
-            ingredient.available ? "checked" : ""
+            ingredient.avaible ? "checked" : ""
           }>
           <input type="text" name="ingredient[]" placeholder="Ingrediente" class="ingredient-input" value="${
             ingredient.name || ""
